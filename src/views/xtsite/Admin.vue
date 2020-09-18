@@ -1,6 +1,8 @@
 <template>
   <div class="admin">
-    <el-button type="success" @click="addAdminBtn('add')">添加管理员</el-button>
+    <div class="addadmin">
+      <el-button type="success" @click="addAdminBtn('add')">添加管理员</el-button>
+    </div>
     <el-table
       :data="adminList"
       stripe
@@ -26,7 +28,7 @@
         label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status===0">正常</span>
-          <span v-else>冻结</span>
+          <span v-else class="red">冻结</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -38,7 +40,7 @@
         label="操作"
         align="center">
         <template slot-scope="scope">
-          <el-link @click="addAdminBtn(scope.row)">修改</el-link>
+          <el-link @click="addAdminBtn(scope.row)" class="changeadmin">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
         </template>
       </el-table-column>
@@ -259,15 +261,22 @@ export default {
 
 <style lang='less' scoped>
 .admin{
-  padding: 20px;
-  .el-button{
-    margin-bottom: 20px;
+  .addadmin{
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000;
+  }
+  .red{
+    color: red;
   }
   .el-select{
     width: 100%;
   }
   .el-radio{
     margin-left: 20px;
+  }
+  .changeadmin{
+    margin-right: 10px;
   }
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div class="senword">
-    <el-button @click="addCenWordBtn('add')">添加敏感词</el-button>
+    <div class="addsenword">
+      <el-button @click="addCenWordBtn('add')" type="success">添加敏感词</el-button>
+    </div>
     <el-table
       :data="senWordList"
       stripe
@@ -20,7 +22,7 @@
         align="center"
         label="状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.sensitiveStatus===0">禁用</span>
+          <span v-if="scope.row.sensitiveStatus===0" class="red">禁用</span>
           <span v-else>启用</span>
         </template>
       </el-table-column>
@@ -28,7 +30,7 @@
         align="center"
         label="管理">
         <template slot-scope="scope">
-          <el-link @click="addCenWordBtn(scope.row)">修改</el-link>
+          <el-link @click="addCenWordBtn(scope.row)" class="changesenword">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
         </template>
       </el-table-column>
@@ -194,6 +196,18 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.senword{
+  .addsenword{
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000;
+  }
+  .changesenword{
+    margin-right: 10px;
+  }
+  .red{
+    color: red;
+  }
+}
 </style>

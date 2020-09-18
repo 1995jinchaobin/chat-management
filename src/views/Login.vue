@@ -22,7 +22,7 @@
 </template>
 
 <script>
-// const Base64 = require('js-base64').Base64
+const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
   data () {
@@ -38,8 +38,8 @@ export default {
         adminPwd: [
           { required: true, message: '请输入登陆密码', trigger: 'blur' }
         ]
-      }
-      // url: ''
+      },
+      powerListArr: []
     }
   },
   methods: {
@@ -57,16 +57,15 @@ export default {
         if (b.code !== 100) return this.$message.error(b.msg)
         this.$message.success('登陆成功')
         window.sessionStorage.setItem('userToken', b.data.userToken)
+        const powerList = b.data.adminModulList
+        for (const item of powerList) {
+          if (item.status === 1) {
+            this.powerListArr.push(item.moduleId)
+          }
+        }
+        window.sessionStorage.setItem('power', Base64.encode(this.powerListArr))
         this.$router.push('/home')
       })
-      //   const obj = Base64.encode(JSON.stringify(b.data.userAuthority))
-      //   window.sessionStorage.setItem('obj', obj)
-      //   window.sessionStorage.setItem('idc', b.data.idc)
-      //   window.sessionStorage.setItem('userName', b.data.userName)
-      //   const mm = Base64.encode(b.data.loginPassword)
-      //   window.sessionStorage.setItem('passWord', mm)
-      //   this.$router.push('/statistical')
-      // })
     }
   }
 }

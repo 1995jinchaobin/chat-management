@@ -1,32 +1,37 @@
 <template>
   <div class="blacklist">
-    <el-input
-      placeholder="请输入内容"
-      v-model="searchValue"
-      clearable
-      @clear='closeSelectValue'>
-      <el-select
-        v-model="OptionValue"
-        slot="prepend"
-        placeholder="请选择类型">
-        <el-option
-        v-for="item in searchOptionsList"
-        :key="item.value"
-        :label="item.value"
-        :value="item.value"></el-option>
-      </el-select>
-      <el-button
-        slot="append"
-        icon="el-icon-search"
-        @click="seacrchOptionBtn"></el-button>
-    </el-input>
-    <el-date-picker
-      v-model="blackListParams.time"
-      type="date"
-      placeholder="时间"
-      @change='seacrchOptionBtn'
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
+    <div class="search">
+      <el-input
+        placeholder="请输入内容"
+        v-model="searchValue"
+        clearable
+        @clear='closeSelectValue'
+        class="inputsearch">
+        <el-select
+          v-model="OptionValue"
+          slot="prepend"
+          placeholder="请选择类型"
+          class="selectsearch">
+          <el-option
+          v-for="item in searchOptionsList"
+          :key="item.value"
+          :label="item.value"
+          :value="item.value"></el-option>
+        </el-select>
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="seacrchOptionBtn"></el-button>
+      </el-input>
+      <el-date-picker
+        v-model="blackListParams.time"
+        type="date"
+        placeholder="时间"
+        @change='seacrchOptionBtn'
+        value-format="yyyy-MM-dd"
+        class="searchtime">
+      </el-date-picker>
+    </div>
     <el-table
       :data="blackList"
       stripe
@@ -39,8 +44,10 @@
       </el-table-column>
       <el-table-column
         align="center"
-        prop="userImage"
         label="拉黑用户头像">
+        <template slot-scope="scope">
+          <img :src="$imgUrl+scope.row.userImage" class="imgSmall" @click="lookImg(scope.row,'userImage')"/>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -54,8 +61,10 @@
       </el-table-column>
       <el-table-column
         align="center"
-        prop="blockImage"
         label="被拉黑用户头像">
+        <template slot-scope="scope">
+          <img :src="$imgUrl+scope.row.blockImage" class="imgSmall" @click="lookImg(scope.row,'blockImage')"/>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -85,6 +94,13 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="allTotal">
     </el-pagination>
+    <!-- 图片预览 -->
+    <el-dialog
+      title="图片预览"
+      :visible.sync="imageDialog"
+      width="40%">
+      <img :src="$imgUrl+imageUrl" class="imgSmall"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -115,7 +131,9 @@ export default {
         { value: '拉黑用户手机号' },
         { value: '被拉黑用户ID' },
         { value: '被拉黑用户手机号' }
-      ]
+      ],
+      imageUrl: '',
+      imageDialog: false
     }
   },
   created () {
@@ -142,13 +160,21 @@ export default {
       all.userPhone = all.blockPhone = ''
       switch (this.OptionValue) {
         case '拉黑用户ID':
-          all.userId = parseInt(this.searchValue)
+          if (this.searchValue.length > 0) {
+            all.userId = parseInt(this.searchValue)
+          } else {
+            all.userId = null
+          }
           break
         case '拉黑用户手机号':
           all.userPhone = this.searchValue
           break
         case '被拉黑用户ID':
-          all.blockId = parseInt(this.searchValue)
+          if (this.searchValue.length > 0) {
+            all.blockId = parseInt(this.searchValue)
+          } else {
+            all.blockId = null
+          }
           break
         case '被拉黑用户手机号':
           all.blockPhone = this.searchValue
@@ -183,11 +209,42 @@ export default {
       console.log(`当前页: ${val}`)
       this.blackListParams.currenPage = val
       this.getBlackList()
+    },
+    // 图片预览
+    lookImg (value, img) {
+      console.log(value)
+      console.log(img)
+      if (img === 'userImage') {
+        this.imageUrl = value.userImage
+      } else {
+        this.imageUrl = value.blockImage
+      }
+      console.log(this.imageUrl)
+      this.imageDialog = true
     }
   }
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.blacklist{
+  .search{
+    display: flex;
+    margin-bottom: 10px;
+    .inputsearch{
+      width: 450px;
+      margin-right: 20px;
+      .selectsearch{
+        width: 160px;
+      }
+    }
+    .searchtime{
+      width: 150px;
+    }
+  }
+  .imgSmall{
+    width: 100%;
+    cursor: pointer;
+  }
+}
 </style>

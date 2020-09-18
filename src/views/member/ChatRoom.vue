@@ -181,6 +181,7 @@ export default {
       const { data: res } = await this.$http.get(`groupContentTable/del?id=${id}`)
       console.log(res)
       if (res.code !== 100) return this.$message.error('删除该信息失败')
+      this.getChatRoomList()
       this.$message.success('删除该消息成功')
     },
     // 移除群
@@ -189,6 +190,7 @@ export default {
       const { data: res } = await this.$http.get(`groupContentTable/delectyc?group=${value.group}&userId=${value.userId}`)
       console.log(res)
       if (res.code !== 100) return this.$message.error('移出失败')
+      this.getChatRoomList()
       this.$message.success('移出成功')
     },
     // 禁言
@@ -196,6 +198,7 @@ export default {
       console.log(value)
       const { data: res } = await this.$http.post('groupContentTable/forbiddenWords', { userId: value.userId })
       if (res.code !== 100) return this.$message.error('禁言失败')
+      this.getChatRoomList()
       this.$message.success('禁言成功')
       console.log(res)
     },
@@ -205,6 +208,7 @@ export default {
       console.log(res)
       if (res.code !== 100) return this.$message.error('清空失败')
       this.chatRoomListParams.currenPage = 1
+      this.getChatRoomList()
       this.$message.success('清空成功')
     },
     // 每页条数变化

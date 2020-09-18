@@ -2,16 +2,19 @@
   <div class="userimg">
     <div class="search">
       <el-input
+        class="imgid"
         v-model="userImgListParams.id"
         placeholder="请输入图片编号"
         clearable>
       </el-input>
       <el-input
+        class="userid"
         v-model="userImgListParams.userId"
         placeholder="请输入用户ID"
         clearable>
       </el-input>
        <el-select
+        class="imgtype"
         v-model="userImgListParams.imageType"
         placeholder="请选择图片类型"
         clearable>
@@ -22,7 +25,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button @click="getUserImgList">搜索</el-button>
+      <el-button @click="getUserImgList" type="primary">搜索</el-button>
     </div>
     <el-table
       :data="userImgList"
@@ -38,7 +41,7 @@
         align="center"
         label="图片">
         <template slot-scope="scope">
-          <img :src="$imgUrl+scope.row.userImg" class="imgSmall" @click="lookImg(scope.row)"/>
+          <img :src="$imgUrl+scope.row.imageUrl" class="imgSmall" @click="lookImg(scope.row)"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -193,9 +196,27 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.imgSmall{
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+.userimg{
+  .search{
+    display: flex;
+    margin-bottom: 10px;
+    .imgid{
+      width: 180px;
+      margin-right: 10px;
+    }
+    .userid{
+      width: 200px;
+      margin-right: 10px;
+    }
+    .imgtype{
+      width: 150px;
+      margin-right: 10px;
+    }
+  }
+  .imgSmall{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
 }
 </style>

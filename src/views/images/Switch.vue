@@ -1,7 +1,7 @@
 <template>
   <div class="switch">
     <div class="addImg">
-      <el-button @click="addImgDialogOpen">添加图片</el-button>
+      <el-button @click="addImgDialogOpen" type="success">添加图片</el-button>
     </div>
     <el-table
       :data="switchList"
@@ -94,7 +94,7 @@ export default {
         imgPath: '',
         imageType: 0
       },
-      // },
+      // 图片预览
       imageUrl: '',
       imageDialog: false
     }
@@ -170,9 +170,16 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.imgSmall{
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+.switch{
+  .addImg{
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+  }
+  .imgSmall{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
 }
 </style>

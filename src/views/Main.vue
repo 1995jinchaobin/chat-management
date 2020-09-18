@@ -22,7 +22,7 @@
           alt="#">
         </div>
         <!-- app设置 -->
-        <el-submenu index="1">
+        <el-submenu index="1" v-if="powerListArr.indexOf('15')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">app设置</span>
@@ -30,14 +30,14 @@
           <el-menu-item index="android" @click="tagBtn('android')">安卓下载地址</el-menu-item>
           <el-menu-item index="apple" @click="tagBtn('apple')">苹果下载地址</el-menu-item>
         </el-submenu>
-        <!-- 内容管理 -->
-        <el-submenu index="2">
+        <!-- 广播管理 -->
+        <el-submenu index="2" v-if="powerListArr.indexOf('23')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span slot="title">内容管理</span>
+            <span slot="title">广播管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="contentlist" @click="tagBtn('contentlist')">内容列表</el-menu-item>
+            <el-menu-item index="contentlist" @click="tagBtn('contentlist')">广播列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 会员管理 -->
@@ -47,16 +47,27 @@
             <span slot="title">会员管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="user" @click="tagBtn('user')">用户管理</el-menu-item>
-            <el-menu-item index="userchat" @click="tagBtn('userchat')">聊天管理</el-menu-item>
-            <el-menu-item index="level" @click="tagBtn('level')">会员等级</el-menu-item>
+            <el-menu-item index="user" @click="tagBtn('user')" v-if="powerListArr.indexOf('26')!==-1">用户管理</el-menu-item>
+            <el-menu-item index="userchat" @click="tagBtn('userchat')" v-if="powerListArr.indexOf('34')!==-1">聊天管理</el-menu-item>
+            <el-menu-item index="level" @click="tagBtn('level')" v-if="powerListArr.indexOf('29')!==-1">会员等级</el-menu-item>
             <el-menu-item index="blacklist" @click="tagBtn('blacklist')">拉黑管理</el-menu-item>
-            <el-menu-item index="chatroom" @click="tagBtn('chatroom')">聊天室管理</el-menu-item>
+            <!-- <el-menu-item index="chatroom" @click="tagBtn('chatroom')">聊天室管理</el-menu-item> -->
             <!-- <el-menu-item index="site" @click="tagBtn('site')">其他设置</el-menu-item> -->
           </el-menu-item-group>
         </el-submenu>
+        <!-- 聊天室管理 -->
+        <el-submenu index="9">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span slot="title">聊天室管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="chatroom" @click="tagBtn('chatroom')">聊天室内容</el-menu-item>
+             <el-menu-item index="chatmember" @click="tagBtn('chatmember')">聊天室人员</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
         <!-- 其他设置 -->
-        <el-submenu index="8">
+        <el-submenu index="8" v-if="powerListArr.indexOf('38')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">其他设置</span>
@@ -72,8 +83,8 @@
             <span slot="title">图片管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="switch" @click="tagBtn('switch')">轮播图</el-menu-item>
-            <el-menu-item index="sysinform" @click="tagBtn('sysinform')">系统通知</el-menu-item>
+            <el-menu-item index="switch" @click="tagBtn('switch')" v-if="powerListArr.indexOf('42')!==-1">轮播图</el-menu-item>
+            <el-menu-item index="sysinform" @click="tagBtn('sysinform')" v-if="powerListArr.indexOf('40')!==-1">系统通知</el-menu-item>
             <el-menu-item index="userimg" @click="tagBtn('userimg')">聊天图片</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -130,7 +141,7 @@
           <el-button icon="el-icon-caret-left" class="iconLeft" @click="tagLeftBtn"></el-button>
           <el-button icon="el-icon-caret-right" class="iconRight" @click="tagRightBtn"></el-button>
           <!-- <i class="el-icon-caret-right"></i> -->
-          <el-button icon="el-icon-switch-button" class="outBtn">退出</el-button>
+          <el-button icon="el-icon-switch-button" class="outBtn" @click="pushLogin">退出</el-button>
           <el-button class="closeTagBtn" @click="closeOtherTag">关闭其他选项卡</el-button>
           <div :class="zuoyi?'tagLeft':''" class="tagAll">
             <el-tag
@@ -157,6 +168,7 @@
 </template>
 
 <script>
+const Base64 = require('js-base64').Base64
 export default {
   data () {
     return {
@@ -167,12 +179,13 @@ export default {
       tagAllList: [
         { name: '安卓下载地址', url: 'android' },
         { name: '苹果下载地址', url: 'apple' },
-        { name: '内容列表', url: 'contentlist' },
+        { name: '广播列表', url: 'contentlist' },
         { name: '用户管理', url: 'user' },
         { name: '会员等级', url: 'level' },
         { name: '拉黑管理', url: 'blacklist' },
         { name: '聊天管理', url: 'userchat' },
-        { name: '聊天室管理', url: 'chatroom' },
+        { name: '聊天室内容', url: 'chatroom' },
+        { name: '聊天室人员', url: 'chatmember' },
         { name: '标签设置', url: 'site' },
         { name: '轮播图', url: 'switch' },
         { name: '系统通知', url: 'sysinform' },
@@ -186,11 +199,14 @@ export default {
       ],
       // 点击标签的位置
       tagIndex: 0,
-      zuoyi: false
+      zuoyi: false,
+      powerListArr: []
     }
   },
   created () {
     this.$router.push('home')
+    this.powerListArr = Base64.decode(window.sessionStorage.getItem('power')).split(',')
+    console.log(this.powerListArr)
   },
   methods: {
     // 左侧菜单栏点击
@@ -265,11 +281,16 @@ export default {
       const obj = this.tags[this.tagIndex]
       this.tags = []
       this.tags.push(obj)
+    },
+    // 退出
+    pushLogin () {
+      window.sessionStorage.clear()
+      this.$router.push('login')
     }
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .main{
   .el-container{
     min-width: 800px;

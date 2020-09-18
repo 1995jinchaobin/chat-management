@@ -12,6 +12,7 @@ import User from '@/views/member/User.vue'
 import BlackList from '@/views/member/BlackList.vue'
 import UserChat from '@/views/member/UserChat.vue'
 import ChatRoom from '@/views/member/ChatRoom.vue'
+import ChatMember from '@/views/member/ChatMember.vue'
 import Switch from '@/views/images/Switch.vue'
 import SysInform from '@/views/images/SysInform.vue'
 import UserImg from '@/views/images/UserImg.vue'
@@ -45,6 +46,7 @@ const routes = [
       { path: 'blacklist', component: BlackList },
       { path: 'userchat', component: UserChat },
       { path: 'chatroom', component: ChatRoom },
+      { path: 'chatmember', component: ChatMember },
       { path: 'switch', component: Switch },
       { path: 'sysinform', component: SysInform },
       { path: 'userimg', component: UserImg },

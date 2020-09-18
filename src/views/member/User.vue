@@ -467,6 +467,7 @@ export default {
   }
   .imgSmall{
     width: 100%;
+    cursor: pointer;
   }
   .red{
     color: red;

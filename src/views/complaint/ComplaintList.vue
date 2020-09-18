@@ -1,21 +1,23 @@
 <template>
   <div class="complaintlist">
-    <!-- complaintContent(投诉内容),complaintTime(投诉时间),status(处理状态(0.处理中 1.已处理)) -->
     <div class="search">
        <el-input
+        class="userid"
         placeholder="请输入用户ID"
         v-model="tousuListParams.userId"
         clearable>
       </el-input>
       <el-input
+        class="complaintContent"
         placeholder="请输入投诉内容"
         v-model="tousuListParams.complaintContent"
         clearable>
       </el-input>
       <el-select
+        class="complaintStatus"
         v-model="tousuListParams.status"
         slot="prepend"
-        placeholder="请选择投诉处理状态"
+        placeholder="投诉处理状态"
         clearable>
         <el-option
           v-for="item in searchOptionsList"
@@ -25,12 +27,13 @@
         </el-option>
       </el-select>
       <el-date-picker
+        class="complaintTime"
         v-model="tousuListParams.complaintTime"
         type="date"
         placeholder="时间"
         value-format="yyyy-MM-dd">
       </el-date-picker>
-      <el-button @click="searchBtn">搜索</el-button>
+      <el-button @click="searchBtn" type="primary">搜索</el-button>
     </div>
     <el-table
       :data="tousuList"
@@ -145,9 +148,9 @@ export default {
     },
     // 搜索
     searchBtn () {
-      if (this.tousuListParams.userId !== null && this.tousuListParams.userId.trim().length > 0) {
+      if (this.tousuListParams.userId !== null && this.tousuListParams.userId.length > 0) {
         this.tousuListParams.userId = parseInt(this.tousuListParams.userId)
-        console.log(123)
+        console.log(this.tousuListParams.userId)
       } else {
         this.tousuListParams.userId = null
       }
@@ -170,6 +173,27 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.complaintlist{
+  .search{
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .userid{
+    width: 150px;
+    margin-right: 10px;
+  }
+  .complaintContent{
+    width: 220px;
+    margin-right: 10px;
+  }
+  .complaintStatus{
+    width: 150px;
+    margin-right: 10px;
+  }
+  .complaintTime{
+    width: 150px;
+    margin-right: 10px;
+  }
+}
 </style>

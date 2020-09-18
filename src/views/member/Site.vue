@@ -122,7 +122,7 @@ export default {
       console.log(this.siteListParams)
       const { data: res } = await this.$http.get('labelDic/selectAll', { params: this.siteListParams })
       console.log(res)
-      if (res.code !== 100) return this.$message.error('获取聊天室数据失败')
+      if (res.code !== 100) return this.$message.error('获取标签数据列表失败')
       this.siteList = res.data.memberPageData.pageData
       if (this.siteList.length === 0 && this.siteListParams.currenPage > 1) {
         this.siteListParams.currenPage -= 1

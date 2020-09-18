@@ -1,7 +1,7 @@
 <template>
   <div class="sysinform">
     <div class="addSysBtn">
-      <el-button @click="changeSysInform('add')">添加广播</el-button>
+      <el-button @click="changeSysInform('add')" type="success">添加广播</el-button>
     </div>
     <div class="search">
       <el-input
@@ -15,7 +15,7 @@
         placeholder="请选择时间"
         value-format="yyyy-MM-dd">
       </el-date-picker>
-      <el-button @click="getSysInformList">搜索</el-button>
+      <el-button @click="getSysInformList" type="primary">搜索</el-button>
     </div>
     <el-table
       :data="sysInformList"
@@ -191,6 +191,20 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.sysinform{
+  .addSysBtn{
+    border-bottom: 1px solid #000;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+  .search{
+    display: flex;
+    margin-bottom: 10px;
+    .el-input{
+      width: 200px;
+      margin-right: 20px;
+    }
+  }
+}
 </style>
