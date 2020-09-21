@@ -70,7 +70,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeBtn('删除该信息','1',scope.row)">撤回</el-link>
           <el-link @click="changeBtn(`使用户:${scope.row.userId}移出群:${scope.row.group}`,'2',scope.row)">移出群</el-link>
@@ -118,6 +119,7 @@ export default {
   },
   created () {
     this.getChatRoomList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getChatRoomList () {

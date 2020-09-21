@@ -22,7 +22,7 @@
           alt="#">
         </div>
         <!-- app设置 -->
-        <el-submenu index="1" v-if="powerListArr.indexOf('15')!==-1">
+        <el-submenu index="1" v-if="powerListArr.indexOf('1')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">app设置</span>
@@ -31,14 +31,15 @@
           <el-menu-item index="apple" @click="tagBtn('apple')">苹果下载地址</el-menu-item>
         </el-submenu>
         <!-- 广播管理 -->
-        <el-submenu index="2" v-if="powerListArr.indexOf('23')!==-1">
+        <el-submenu index="2" v-if="powerListArr.indexOf('10')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">广播管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="contentlist" @click="tagBtn('contentlist')">广播列表</el-menu-item>
+            <el-menu-item index="contentlist" @click="tagBtn('contentlist')">用户广播</el-menu-item>
           </el-menu-item-group>
+          <el-menu-item index="sysinform" @click="tagBtn('sysinform')">系统广播</el-menu-item>
         </el-submenu>
         <!-- 会员管理 -->
         <el-submenu index="3">
@@ -47,10 +48,10 @@
             <span slot="title">会员管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="user" @click="tagBtn('user')" v-if="powerListArr.indexOf('26')!==-1">用户管理</el-menu-item>
-            <el-menu-item index="userchat" @click="tagBtn('userchat')" v-if="powerListArr.indexOf('34')!==-1">聊天管理</el-menu-item>
-            <el-menu-item index="level" @click="tagBtn('level')" v-if="powerListArr.indexOf('29')!==-1">会员等级</el-menu-item>
-            <el-menu-item index="blacklist" @click="tagBtn('blacklist')">拉黑管理</el-menu-item>
+            <el-menu-item index="user" @click="tagBtn('user')" v-if="powerListArr.indexOf('11')!==-1">会员管理</el-menu-item>
+            <el-menu-item index="userchat" @click="tagBtn('userchat')" v-if="powerListArr.indexOf('13')!==-1">聊天管理</el-menu-item>
+            <el-menu-item index="level" @click="tagBtn('level')" v-if="powerListArr.indexOf('12')!==-1">会员等级</el-menu-item>
+            <el-menu-item index="blacklist" @click="tagBtn('blacklist')" v-if="powerListArr.indexOf('14')!==-1">拉黑管理</el-menu-item>
             <!-- <el-menu-item index="chatroom" @click="tagBtn('chatroom')">聊天室管理</el-menu-item> -->
             <!-- <el-menu-item index="site" @click="tagBtn('site')">其他设置</el-menu-item> -->
           </el-menu-item-group>
@@ -62,12 +63,12 @@
             <span slot="title">聊天室管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="chatroom" @click="tagBtn('chatroom')">聊天室内容</el-menu-item>
-             <el-menu-item index="chatmember" @click="tagBtn('chatmember')">聊天室人员</el-menu-item>
+            <el-menu-item index="chatmember" @click="tagBtn('chatmember')" v-if="powerListArr.indexOf('15')!==-1">聊天室列表</el-menu-item>
+            <el-menu-item index="chatroom" @click="tagBtn('chatroom')" v-if="powerListArr.indexOf('16')!==-1">聊天室内容</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 其他设置 -->
-        <el-submenu index="8" v-if="powerListArr.indexOf('38')!==-1">
+        <el-submenu index="8" v-if="powerListArr.indexOf('17')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">其他设置</span>
@@ -83,9 +84,8 @@
             <span slot="title">图片管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="switch" @click="tagBtn('switch')" v-if="powerListArr.indexOf('42')!==-1">轮播图</el-menu-item>
-            <el-menu-item index="sysinform" @click="tagBtn('sysinform')" v-if="powerListArr.indexOf('40')!==-1">系统通知</el-menu-item>
-            <el-menu-item index="userimg" @click="tagBtn('userimg')">聊天图片</el-menu-item>
+            <el-menu-item index="switch" @click="tagBtn('switch')" v-if="powerListArr.indexOf('18')!==-1">轮播图</el-menu-item>
+            <el-menu-item index="userimg" @click="tagBtn('userimg')" v-if="powerListArr.indexOf('19')!==-1">聊天图片</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 系统设置 -->
@@ -95,13 +95,13 @@
             <span slot="title">系统设置</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="admin" @click="tagBtn('admin')">管理员</el-menu-item>
-            <el-menu-item index="power" @click="tagBtn('power')">权限设置</el-menu-item>
-            <el-menu-item index="senword" @click="tagBtn('senword')">敏感词管理</el-menu-item>
+            <el-menu-item index="admin" @click="tagBtn('admin')" v-if="powerListArr.indexOf('20')!==-1">管理员</el-menu-item>
+            <el-menu-item index="power" @click="tagBtn('power')" v-if="powerListArr.indexOf('21')!==-1">权限设置</el-menu-item>
+            <el-menu-item index="senword" @click="tagBtn('senword')" v-if="powerListArr.indexOf('22')!==-1">敏感词管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 菜单管理 -->
-        <el-submenu index="6">
+        <!-- <el-submenu index="6">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">菜单管理</span>
@@ -110,9 +110,9 @@
             <el-menu-item index="groupm" @click="tagBtn('groupm')">群管理</el-menu-item>
             <el-menu-item index="groupchat" @click="tagBtn('groupchat')">群聊天</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>
+        </el-submenu> -->
         <!-- 投诉列表 -->
-        <el-submenu index="7">
+        <el-submenu index="7" v-if="powerListArr.indexOf('23')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">投诉列表</span>
@@ -179,16 +179,16 @@ export default {
       tagAllList: [
         { name: '安卓下载地址', url: 'android' },
         { name: '苹果下载地址', url: 'apple' },
-        { name: '广播列表', url: 'contentlist' },
-        { name: '用户管理', url: 'user' },
+        { name: '用户广播', url: 'contentlist' },
+        { name: '会员管理', url: 'user' },
         { name: '会员等级', url: 'level' },
         { name: '拉黑管理', url: 'blacklist' },
         { name: '聊天管理', url: 'userchat' },
         { name: '聊天室内容', url: 'chatroom' },
-        { name: '聊天室人员', url: 'chatmember' },
+        { name: '聊天室列表', url: 'chatmember' },
         { name: '标签设置', url: 'site' },
         { name: '轮播图', url: 'switch' },
-        { name: '系统通知', url: 'sysinform' },
+        { name: '系统广播', url: 'sysinform' },
         { name: '聊天图片', url: 'userimg' },
         { name: '管理员', url: 'admin' },
         { name: '权限设置', url: 'power' },
@@ -200,13 +200,22 @@ export default {
       // 点击标签的位置
       tagIndex: 0,
       zuoyi: false,
-      powerListArr: []
+      powerListArr: [],
+      isWrite: null
     }
   },
+  // beforeCreate () {
+  //   this.writeStyle.display = 'none'
+  // },
   created () {
     this.$router.push('home')
     this.powerListArr = Base64.decode(window.sessionStorage.getItem('power')).split(',')
     console.log(this.powerListArr)
+    this.isWrite = this.powerListArr.indexOf('9')
+    console.log(this.isWrite)
+    if (this.isWrite !== -1) {
+      window.sessionStorage.setItem('isWrite', 'isWriteQweasd')
+    }
   },
   methods: {
     // 左侧菜单栏点击

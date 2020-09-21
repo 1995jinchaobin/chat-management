@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <div class="addSite">
-      <el-button @click="changeSiteInfo('add')" type="success">添加标签</el-button>
+      <el-button @click="changeSiteInfo('add')" type="success" v-if="isWrite==='isWriteQweasd'">添加标签</el-button>
     </div>
     <el-table
       :data="siteList"
@@ -33,7 +33,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeSiteInfo(scope.row)" class="changebtn">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -116,6 +117,7 @@ export default {
   },
   created () {
     this.getSiteList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getSiteList () {

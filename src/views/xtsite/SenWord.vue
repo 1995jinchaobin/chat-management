@@ -1,7 +1,7 @@
 <template>
   <div class="senword">
     <div class="addsenword">
-      <el-button @click="addCenWordBtn('add')" type="success">添加敏感词</el-button>
+      <el-button @click="addCenWordBtn('add')" type="success" v-if="isWrite==='isWriteQweasd'">添加敏感词</el-button>
     </div>
     <el-table
       :data="senWordList"
@@ -28,7 +28,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="addCenWordBtn(scope.row)" class="changesenword">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -120,6 +121,7 @@ export default {
   },
   created () {
     this.getSenWordList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getSenWordList () {

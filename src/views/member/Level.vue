@@ -1,7 +1,7 @@
 <template>
   <div class="level">
     <div class="addLevel">
-      <el-button type="success" @click="changeLvevlInfo('add')">添加等级</el-button>
+      <el-button type="success" @click="changeLvevlInfo('add')" v-if="isWrite==='isWriteQweasd'">添加等级</el-button>
     </div>
     <el-table
       :data="levelList"
@@ -45,7 +45,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="操作">
+        label="操作"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeLvevlInfo(scope.row)" class="changebtn">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -116,6 +117,7 @@ export default {
   },
   created () {
     this.getLevelList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getLevelList () {

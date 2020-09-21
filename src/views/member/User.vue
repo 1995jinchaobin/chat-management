@@ -1,7 +1,7 @@
 <template>
   <div class="userlist">
     <div class="addUserBtn">
-      <el-button type="success" @click="showAddDialogBtn('add')">添加用户</el-button>
+      <el-button type="success" @click="showAddDialogBtn('add')" v-if="isWrite==='isWriteQweasd'">添加用户</el-button>
     </div>
     <!-- 固定搜索按钮 -->
     <div class="searchBtn">
@@ -160,7 +160,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center">
+        align="center"      v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="showAddDialogBtn(scope.row)">修改</el-link>
           <el-link @click="freezeBtn(scope.row)" v-if="scope.row.state===0" class="marbtn">封号</el-link>
@@ -281,6 +281,7 @@ export default {
   },
   created () {
     this.getUserList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getUserList () {

@@ -87,7 +87,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link v-if="scope.row.forbiddenWordsStatus===0" @click="changeStatus(scope.row)">禁言</el-link>
           <el-link v-else @click="changeStatus(scope.row)">解禁</el-link>
@@ -137,6 +138,7 @@ export default {
   },
   created () {
     this.getChatMemberList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getChatMemberList () {

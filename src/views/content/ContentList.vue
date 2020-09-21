@@ -4,7 +4,8 @@
     <el-button
       type="success"
       @click="addContentDialog=true"
-      class="addContent">添加广播
+      class="addContent"
+      v-if="isWrite==='isWriteQweasd'">添加广播
     </el-button>
   </div>
   <el-input
@@ -59,7 +60,8 @@
     </el-table-column>
     <el-table-column
       align="center"
-      label="操作">
+      label="操作"
+      v-if="isWrite==='isWriteQweasd'">
       <template slot-scope="scope">
         <el-link v-if="scope.row.state===0" @click="changeState(scope.row)">通过</el-link>
         <el-link v-else @click="changeState(scope.row)">拒绝</el-link>
@@ -159,6 +161,7 @@ export default {
   },
   created () {
     this.getContentList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getContentList () {

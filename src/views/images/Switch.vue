@@ -1,7 +1,10 @@
 <template>
   <div class="switch">
     <div class="addImg">
-      <el-button @click="addImgDialogOpen" type="success">添加图片</el-button>
+      <el-button
+        @click="addImgDialogOpen"
+        type="success"
+        v-if="isWrite==='isWriteQweasd'">添加图片</el-button>
     </div>
     <el-table
       :data="switchList"
@@ -27,7 +30,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
         </template>
@@ -101,6 +105,7 @@ export default {
   },
   created () {
     this.getSwitchList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getSwitchList () {

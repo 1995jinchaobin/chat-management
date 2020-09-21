@@ -1,7 +1,7 @@
 <template>
   <div class="sysinform">
     <div class="addSysBtn">
-      <el-button @click="changeSysInform('add')" type="success">添加广播</el-button>
+      <el-button @click="changeSysInform('add')" type="success" v-if="isWrite==='isWriteQweasd'">添加广播</el-button>
     </div>
     <div class="search">
       <el-input
@@ -44,7 +44,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeSysInform(scope.row)">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -120,6 +121,7 @@ export default {
   },
   created () {
     this.getSysInformList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getSysInformList () {

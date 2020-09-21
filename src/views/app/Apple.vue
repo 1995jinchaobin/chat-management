@@ -1,10 +1,18 @@
 <template>
-  <div class="apple">苹果下载地址</div>
+  <div class="apple">
+    <div v-if="isWrite==='isWriteQweasd'">苹果下载地址</div>
+  </div>
 </template>
 
 <script>
 export default {
-
+  data () {
+    return {}
+  },
+  created () {
+    this.isWrite = window.sessionStorage.getItem('isWrite')
+    console.log(this.isWrite)
+  }
 }
 </script>
 

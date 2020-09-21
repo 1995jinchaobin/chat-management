@@ -80,7 +80,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
         </template>
@@ -125,6 +126,7 @@ export default {
   },
   created () {
     this.getTousuList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     async getTousuList () {

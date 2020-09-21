@@ -1,7 +1,7 @@
 <template>
   <div class="admin">
     <div class="addadmin">
-      <el-button type="success" @click="addAdminBtn('add')">添加管理员</el-button>
+      <el-button type="success" @click="addAdminBtn('add')" v-if="isWrite==='isWriteQweasd'">添加管理员</el-button>
     </div>
     <el-table
       :data="adminList"
@@ -38,7 +38,8 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="addAdminBtn(scope.row)" class="changeadmin">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -162,6 +163,7 @@ export default {
   created () {
     this.getAdminList()
     this.getAdminPowerList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
   },
   methods: {
     // 管理员权限分类列表

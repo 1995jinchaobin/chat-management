@@ -1,7 +1,7 @@
 <template>
   <div class="power">
     <div class="addpower">
-      <el-button @click="changeFenleiInfo('add')" type="success">添加权限类型</el-button>
+      <el-button @click="changeFenleiInfo('add')" type="success" v-if="isWrite==='isWriteQweasd'">添加权限类型</el-button>
     </div>
     <el-table
       :data="adminFenleiList"
@@ -20,7 +20,8 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="管理">
+        label="管理"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeFenleiInfo(scope.row)" v-if="scope.row.id!==1" class="changeadmin">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)' v-if="scope.row.id!==1"></delete-btn>
@@ -69,6 +70,9 @@ export default {
   },
   data () {
     var validatePhone = async (rule, value, callback) => {
+      console.log(this.beforAdminType)
+      console.log(this.a.adminType)
+      if (this.beforAdminType === this.a.adminType) return callback()
       if (value === '') return callback(new Error('请输入权限类型名称'))
       await this.getAdminType()
       if (this.code !== 100) {
@@ -95,6 +99,7 @@ export default {
         adminType: '',
         mam: []
       },
+      beforAdminType: '',
       aRule: {
         adminType: [
           { required: true, validator: validatePhone, trigger: 'blur' }
@@ -107,6 +112,7 @@ export default {
     await this.getAdminFenleiList()
     this.getPowerList()
     this.getAddPowerList()
+    this.isWrite = window.sessionStorage.getItem('isWrite')
     // this.showFenpeiRoles()
   },
   methods: {
@@ -157,6 +163,7 @@ export default {
         this.fenleiValue = JSON.parse(JSON.stringify(value.mam))
         console.log(this.fenleiValue)
         this.a.id = value.id
+        this.beforAdminType = value.adminType
         this.a.adminType = value.adminType
         this.getPowerId(value.mam)
       }
