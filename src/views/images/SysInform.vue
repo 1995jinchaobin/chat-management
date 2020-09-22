@@ -47,7 +47,7 @@
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <el-link @click="changeSysInform(scope.row)">修改</el-link>
+          <el-link @click="changeSysInform(scope.row)" class="marginRight">修改</el-link>
           <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
         </template>
       </el-table-column>
@@ -207,6 +207,9 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
+  }
+  .marginRight{
+    margin-right: 10px;
   }
 }
 </style>

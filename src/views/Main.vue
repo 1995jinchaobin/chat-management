@@ -42,7 +42,7 @@
           <el-menu-item index="sysinform" @click="tagBtn('sysinform')">系统广播</el-menu-item>
         </el-submenu>
         <!-- 会员管理 -->
-        <el-submenu index="3">
+        <el-submenu index="3" v-if="powerListArr.indexOf('11')!==-1 || powerListArr.indexOf('13')!==-1 || powerListArr.indexOf('12')!==-1 || powerListArr.indexOf('14')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">会员管理</span>
@@ -57,7 +57,7 @@
           </el-menu-item-group>
         </el-submenu>
         <!-- 聊天室管理 -->
-        <el-submenu index="9">
+        <el-submenu index="9" v-if="powerListArr.indexOf('15')!==-1 || powerListArr.indexOf('16')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">聊天室管理</span>
@@ -78,7 +78,7 @@
           </el-menu-item-group>
         </el-submenu>
         <!-- 图片管理 -->
-        <el-submenu index="4">
+        <el-submenu index="4" v-if="powerListArr.indexOf('18')!==-1 || powerListArr.indexOf('19')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">图片管理</span>
@@ -89,7 +89,7 @@
           </el-menu-item-group>
         </el-submenu>
         <!-- 系统设置 -->
-        <el-submenu index="5">
+        <el-submenu index="5" v-if="powerListArr.indexOf('20')!==-1 || powerListArr.indexOf('21')!==-1 ||powerListArr.indexOf('22')!==-1">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">系统设置</span>

@@ -54,13 +54,16 @@
       :title="dialogTitle"
       :visible.sync="addSiteDialog"
       width="60%"
-      :close-on-click-modal='false'>
+      :close-on-click-modal='false'
+      @close=$refs.addSiteRef.clearValidate()>
       <el-form
         ref="addSiteRef"
         :model="addSite"
+        :rules="addSiteRule"
         label-width="150px">
         <el-form-item
-          label="标签名">
+          label="标签名"
+          prop="labelName">
           <el-input
             v-model="addSite.labelName"
             placeholder="请输入用户ID"
@@ -94,6 +97,16 @@ export default {
     deleteBtn
   },
   data () {
+    var validatePhone = async (rule, value, callback) => {
+      if (this.oldLabelName === this.addSite.labelName && this.oldLabelName !== '') return callback()
+      if (value === '') return callback(new Error('请输入标签名称'))
+      await this.getCheckSite()
+      if (this.code !== 100) {
+        callback(new Error('标签名称已存在'))
+      } else {
+        callback()
+      }
+    }
     return {
       siteListParams: {
         currenPage: 1,
@@ -104,15 +117,14 @@ export default {
       // 修改添加标签
       dialogTitle: '',
       addSiteDialog: false,
-      addSite: {}
-      // addSiteRule: {
-      //   userId: [
-      //     { required: true, message: '请输入用户ID', trigger: 'blur' }
-      //   ],
-      //   name: [
-      //     { required: true, message: '请输入会员组名称', trigger: 'blur' }
-      //   ]
-      // }
+      addSite: {},
+      addSiteRule: {
+        labelName: [
+          { required: true, validator: validatePhone, trigger: 'blur' }
+        ]
+      },
+      oldLabelName: '',
+      code: null
     }
   },
   created () {
@@ -131,6 +143,12 @@ export default {
         this.getSiteList()
       }
       this.allTotal = res.data.memberPageData.totalCount
+    },
+    // 标签名查重
+    async getCheckSite () {
+      const { data: res } = await this.$http.get(`labelDic/check?labelName=${this.addSite.labelName}`)
+      console.log(res)
+      this.code = res.code
     },
     // 删除
     async delinfobtn (value) {
@@ -157,6 +175,7 @@ export default {
     changeSiteInfo (value) {
       console.log(value)
       if (value === 'add') {
+        this.oldLabelName = ''
         this.dialogTitle = '添加标签'
         this.addSite = {
           labelStatus: '1',
@@ -164,6 +183,7 @@ export default {
           labelName: ''
         }
       } else {
+        this.oldLabelName = value.labelName
         value.labelStatus = value.labelStatus + ''
         this.dialogTitle = '修改标签'
         this.addSite = value
@@ -172,23 +192,27 @@ export default {
       this.addSiteDialog = true
     },
     // 消息框确定
-    async addSiteDialogBtn () {
+    addSiteDialogBtn () {
       this.addSite.labelStatus = parseFloat(this.addSite.labelStatus)
       console.log(this.addSite)
-      if (this.dialogTitle === '修改标签') {
-        const { data: res } = await this.$http.post('labelDic/upd', this.addSite)
-        console.log(res)
-        if (res.code !== 100) return this.$message.error('修改标签失败')
-        this.$message.success('修改标签成功')
-      } else {
-        console.log(this.addSite)
-        const { data: res } = await this.$http.post('labelDic/add', this.addSite)
-        console.log(res)
-        if (res.code !== 100) return this.$message.error('添加标签失败')
-        this.$message.success('添加标签成功')
-      }
-      this.getSiteList()
-      this.addSiteDialog = false
+      this.$refs.addSiteRef.validate(async value => {
+        if (!value) return
+        console.log(value)
+        if (this.dialogTitle === '修改标签') {
+          const { data: res } = await this.$http.post('labelDic/upd', this.addSite)
+          console.log(res)
+          if (res.code !== 100) return this.$message.error('修改标签失败')
+          this.$message.success('修改标签成功')
+        } else {
+          console.log(this.addSite)
+          const { data: res } = await this.$http.post('labelDic/add', this.addSite)
+          console.log(res)
+          if (res.code !== 100) return this.$message.error('添加标签失败')
+          this.$message.success('添加标签成功')
+        }
+        this.getSiteList()
+        this.addSiteDialog = false
+      })
     }
   }
 }

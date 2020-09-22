@@ -70,9 +70,7 @@ export default {
   },
   data () {
     var validatePhone = async (rule, value, callback) => {
-      console.log(this.beforAdminType)
-      console.log(this.a.adminType)
-      if (this.beforAdminType === this.a.adminType) return callback()
+      if (this.beforAdminType === this.a.adminType && this.beforAdminType !== '') return callback()
       if (value === '') return callback(new Error('请输入权限类型名称'))
       await this.getAdminType()
       if (this.code !== 100) {
@@ -106,13 +104,17 @@ export default {
         ]
       },
       code: null
+      // isWrite: ''
     }
   },
   async created () {
+    this.isWrite = window.sessionStorage.getItem('isWrite')
     await this.getAdminFenleiList()
     this.getPowerList()
     this.getAddPowerList()
-    this.isWrite = window.sessionStorage.getItem('isWrite')
+
+    // this.isWrite = window.sessionStorage.getItem('isWrite')
+    console.log(this.isWrite)
     // this.showFenpeiRoles()
   },
   methods: {
@@ -132,6 +134,7 @@ export default {
       })
       for (const a of this.addPowerList) {
         console.log(a)
+        this.beforAdminType = ''
         delete a.id
         delete a.adminTypeId
       }
@@ -153,6 +156,7 @@ export default {
     // 添加修改分类权限
     changeFenleiInfo (value) {
       if (value === 'add') {
+        this.beforAdminType = ''
         this.powerTitie = '添加权限类型'
         this.a.adminType = ''
         // console.log(this.addPowerList)

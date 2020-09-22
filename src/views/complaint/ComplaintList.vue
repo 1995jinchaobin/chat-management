@@ -74,7 +74,7 @@
         align="center"
         label="状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.status===0">处理中</span>
+          <span v-if="scope.row.status===0" class="red">处理中</span>
           <span v-else>已处理</span>
         </template>
       </el-table-column>
@@ -83,7 +83,9 @@
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <el-link v-if="scope.row.status===0" @click="changeStatus(scope.row)">处理完成</el-link>
+          <el-link v-else @click="changeStatus(scope.row)">取消处理</el-link>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' class="leftMargin"></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -142,6 +144,7 @@ export default {
     },
     // 删除
     async delinfobtn (value) {
+      console.log(value)
       const { data: res } = await this.$http.delete(`complaintComment/delComplaintComment?id=${value.id}`)
       console.log(res)
       if (res.code !== 100) return this.$message.error('删除投诉数据失败')
@@ -170,6 +173,28 @@ export default {
       console.log(`当前页: ${val}`)
       this.tousuListParams.currentPage = val
       this.getTousuList()
+    },
+    // 处理状态切换
+    async changeStatus (value) {
+      console.log(value.status)
+      if (value.status === 0) {
+        const a = {
+          id: value.id,
+          status: 1
+        }
+        const { data: res } = await this.$http.post('complaintComment/updateStatus', a)
+        if (res.code !== 100) return this.$message.error('该投诉处理完成失败')
+        this.$message.success('该投诉已处理完成')
+      } else {
+        const a = {
+          id: value.id,
+          status: 0
+        }
+        const { data: res } = await this.$http.post('complaintComment/updateStatus', a)
+        if (res.code !== 100) return this.$message.error('该投诉取消处理失败')
+        this.$message.success('该投诉已取消处理')
+      }
+      this.getTousuList()
     }
   }
 }
@@ -196,6 +221,12 @@ export default {
   .complaintTime{
     width: 150px;
     margin-right: 10px;
+  }
+  .red{
+    color:red
+  }
+  .leftMargin{
+    margin-left: 10px;
   }
 }
 </style>
