@@ -5,23 +5,26 @@
         placeholder="请输入内容"
         v-model="searchValue"
         clearable
-        @clear='closeSelectValue'
-        class="inputsearch">
+        @clear='seacrchOptionBtn'
+        class="inputsearch"
+        @change="seacrchOptionBtn">
         <el-select
           v-model="OptionValue"
           slot="prepend"
           placeholder="请选择类型"
           class="selectsearch">
           <el-option
-          v-for="item in searchOptionsList"
-          :key="item.value"
-          :label="item.value"
-          :value="item.value"></el-option>
+            v-for="item in searchOptionsList"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value">
+          </el-option>
         </el-select>
         <el-button
           slot="append"
           icon="el-icon-search"
-          @click="seacrchOptionBtn"></el-button>
+          @click="seacrchOptionBtn">
+        </el-button>
       </el-input>
       <el-date-picker
         v-model="blackListParams.time"
@@ -162,7 +165,7 @@ export default {
       all.userPhone = all.blockPhone = ''
       switch (this.OptionValue) {
         case '拉黑用户ID':
-          if (this.searchValue.length > 0) {
+          if (parseInt(this.searchValue)) {
             all.userId = parseInt(this.searchValue)
           } else {
             all.userId = null
@@ -172,7 +175,7 @@ export default {
           all.userPhone = this.searchValue
           break
         case '被拉黑用户ID':
-          if (this.searchValue.length > 0) {
+          if (parseInt(this.searchValue)) {
             all.blockId = parseInt(this.searchValue)
           } else {
             all.blockId = null
@@ -185,11 +188,6 @@ export default {
       }
       console.log(this.blackListParams)
       this.getBlackList()
-    },
-    // 清空搜索内容
-    closeSelectValue () {
-      this.OptionValue = this.searchValue = ''
-      this.seacrchOptionBtn()
     },
     // 删除
     async delinfobtn (value) {

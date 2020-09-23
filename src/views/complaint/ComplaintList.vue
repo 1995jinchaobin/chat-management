@@ -1,24 +1,27 @@
 <template>
   <div class="complaintlist">
     <div class="search">
-       <el-input
+      <el-input
         class="userid"
         placeholder="请输入用户ID"
         v-model="tousuListParams.userId"
-        clearable>
+        clearable
+        @change="searchBtn">
       </el-input>
       <el-input
         class="complaintContent"
         placeholder="请输入投诉内容"
         v-model="tousuListParams.complaintContent"
-        clearable>
+        clearable
+        @change="searchBtn">
       </el-input>
       <el-select
         class="complaintStatus"
         v-model="tousuListParams.status"
         slot="prepend"
         placeholder="投诉处理状态"
-        clearable>
+        clearable
+        @change="searchBtn">
         <el-option
           v-for="item in searchOptionsList"
           :key="item.value"
@@ -31,7 +34,8 @@
         v-model="tousuListParams.complaintTime"
         type="date"
         placeholder="时间"
-        value-format="yyyy-MM-dd">
+        value-format="yyyy-MM-dd"
+        @change="searchBtn">
       </el-date-picker>
       <el-button @click="searchBtn" type="primary">搜索</el-button>
     </div>
@@ -153,12 +157,13 @@ export default {
     },
     // 搜索
     searchBtn () {
-      if (this.tousuListParams.userId !== null && this.tousuListParams.userId.length > 0) {
+      if (parseInt(this.tousuListParams.userId)) {
         this.tousuListParams.userId = parseInt(this.tousuListParams.userId)
         console.log(this.tousuListParams.userId)
       } else {
         this.tousuListParams.userId = null
       }
+      this.tousuListParams.complaintContent = this.tousuListParams.complaintContent.trim()
       this.getTousuList()
       console.log(this.tousuListParams)
     },

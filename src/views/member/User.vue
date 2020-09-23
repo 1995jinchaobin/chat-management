@@ -19,21 +19,25 @@
       <el-input
         placeholder="请输入内容"
         v-model="searchValue"
-        clearable>
+        clearable
+        @clear="seacrchOptionBtn"
+        @change="seacrchOptionBtn">
         <el-select
           v-model="OptionValue"
           slot="prepend"
           placeholder="请选择">
           <el-option
-           v-for="item in searchOptionsList"
-          :key="item.value"
-          :label="item.value"
-          :value="item.value"></el-option>
+            v-for="item in searchOptionsList"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value">
+          </el-option>
         </el-select>
         <el-button
           slot="append"
           icon="el-icon-search"
-          @click="seacrchOptionBtn"></el-button>
+          @click="seacrchOptionBtn">
+        </el-button>
       </el-input>
       <el-date-picker
         v-model="userListParams.chooseRlTime"
@@ -169,7 +173,7 @@
         <template slot-scope="scope">
           <div class="caozuo">
             <el-link @click="showUserDialogBtn(scope.row)">详情</el-link>
-            <el-link @click="showAddDialogBtn(scope.row)">修改</el-link>
+            <!-- <el-link @click="showAddDialogBtn(scope.row)">修改</el-link> -->
             <el-link @click="freezeBtn(scope.row)" v-if="scope.row.state===0">封号</el-link>
             <el-link @click="freezeBtn(scope.row)" v-else>解封</el-link>
             <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
@@ -236,6 +240,14 @@
           <span>{{userInfo.balance}}</span>
         </el-form-item>
         <el-form-item
+          label="直推人数">
+          <span>{{userInfo.directNum}}</span>
+        </el-form-item>
+        <el-form-item
+          label="团队">
+          <span>{{userInfo.teamNum}}</span>
+        </el-form-item>
+        <el-form-item
           label="邀请人">
           <span>{{userInfo.invitees}}</span>
         </el-form-item>
@@ -292,6 +304,7 @@ export default {
         phone: '',
         realName: null,
         registerTimeToday: '',
+        grade: '',
         chooseRlTime: '',
         currentPage: 1,
         limit: 10
@@ -313,7 +326,8 @@ export default {
         { value: 'ID' },
         { value: '昵称' },
         { value: '城市' },
-        { value: '手机号' }
+        { value: '手机号' },
+        { value: '会员等级' }
       ],
       OptionValue: null,
       // 搜索框内容
@@ -412,7 +426,7 @@ export default {
       console.log(this.searchValue)
       const all = this.userListParams
       all.id = null
-      all.name = all.city = all.phine = ''
+      all.name = all.city = all.phine = all.grade = ''
       switch (this.OptionValue) {
         case 'ID':
           all.id = parseInt(this.searchValue)
@@ -425,6 +439,9 @@ export default {
           break
         case '手机号':
           all.phone = this.searchValue
+          break
+        case '会员等级':
+          all.grade = this.searchValue
           break
         default:
       }
@@ -463,6 +480,9 @@ export default {
     // 添加修改用户消息框确定按钮
     addUserDialogBtn () {
       console.log(this.addUser)
+      if (this.addUser.grade) {
+        delete this.addUser.grade
+      }
       this.$refs.children.$refs.addUserRef.validate(async value => {
         if (!value) return this.$message.error('请输入用户名或手机号')
         if (this.userTitle === '添加用户') {

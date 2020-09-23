@@ -5,7 +5,8 @@
         placeholder="请输入内容"
         v-model="searchValue"
         clearable
-        @clear='closeSelectValue'
+        @clear='seacrchOptionBtn'
+        @change="seacrchOptionBtn"
         class="inputsearch">
         <el-select
           v-model="OptionValue"
@@ -13,10 +14,11 @@
           placeholder="请选择类型"
           class="selectsearch">
           <el-option
-          v-for="item in searchOptionsList"
-          :key="item.value"
-          :label="item.value"
-          :value="item.value"></el-option>
+            v-for="item in searchOptionsList"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value">
+          </el-option>
         </el-select>
         <el-button
           slot="append"
@@ -66,7 +68,7 @@
         label="群头像"
         align="center">
         <template slot-scope="scope">
-          <img :src="$imgUrl+scope.row.groupImageId" class="imgSmall" @click="lookImg(scope.row)"/>
+          <img :src="$imgUrl+scope.row.imageUrl" class="imgSmall" @click="lookImg(scope.row)"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -124,7 +126,8 @@
         placeholder="请输入用户id"
         v-model="userInfoParams.userId"
         clearable
-        @clear="getChatInfoListSearch">
+        @clear="getChatInfoListSearch"
+        class="searchUserId">
         <el-button
           slot="append"
           icon="el-icon-search"
@@ -291,6 +294,10 @@ export default {
       console.log(res)
       if (res.code !== 100) return this.$message.error('获取群用户详情失败')
       this.infoData = res.data.infoData.pageData
+      if (this.infoData.length === 0 && this.userInfoParams.currenPage > 1) {
+        this.userInfoParams.currenPage -= 1
+        this.getChatInfoList()
+      }
       this.userAllTotal = res.data.infoData.totalCount
       this.userInfoDialog = true
     },
@@ -354,25 +361,25 @@ export default {
       all.groupName = ''
       switch (this.OptionValue) {
         case '聊天室群号':
-          if (this.searchValue.length > 0) {
+          if (parseInt(this.searchValue)) {
             all.groupNo = parseInt(this.searchValue)
           } else {
             all.groupNo = null
           }
           break
         case '聊天室名字':
-          all.groupName = this.searchValue
+          all.groupName = this.searchValue.trim()
           break
         case '群主ID':
           console.log(all.groupMasterId)
-          if (this.searchValue.length > 0) {
+          if (parseInt(this.searchValue)) {
             all.groupMasterId = parseInt(this.searchValue)
           } else {
             all.groupMasterId = null
           }
           break
         case '群管理员':
-          if (this.searchValue.length > 0) {
+          if (parseInt(this.searchValue)) {
             all.groupAdministrator = parseInt(this.searchValue)
           } else {
             all.groupAdministrator = null
@@ -390,7 +397,7 @@ export default {
     },
     // 图片预览
     lookImg (value) {
-      this.imageUrl = value.groupImageId
+      this.imageUrl = value.imageUrl
       console.log(this.imageUrl)
       this.imageDialog = true
     },
@@ -444,6 +451,10 @@ export default {
   .imgSmall{
     width: 100%;
     cursor: pointer;
+  }
+  .searchUserId{
+    width: 40%;
+    margin-bottom: 10px;
   }
 }
 </style>

@@ -9,10 +9,24 @@
     </el-button>
   </div>
   <el-input
-    placeholder="请输入内容"
+    placeholder="请输入用户ID"
+    v-model="contentListParams.userId"
+    clearable
+    @clear='getContentList'
+    @change="getContentList"
+    class="search">
+    <el-button
+      slot="append"
+      icon="el-icon-search"
+      @click="getContentList">
+    </el-button>
+  </el-input>
+  <el-input
+    placeholder="请输入广播内容"
     v-model="contentListParams.content"
     clearable
     @clear='getContentList'
+    @change="getContentList"
     class="search">
     <el-button
       slot="append"
@@ -129,6 +143,7 @@ export default {
   data () {
     return {
       contentListParams: {
+        userId: null,
         content: '',
         currenPage: 1,
         selectCount: 10
@@ -165,6 +180,14 @@ export default {
   },
   methods: {
     async getContentList () {
+      console.log(this.contentListParams)
+      if (parseInt(this.contentListParams.userId)) {
+        this.contentListParams.userId = parseInt(this.contentListParams.userId)
+      } else {
+        this.contentListParams.userId = null
+      }
+      this.contentListParams.content = this.contentListParams.content.trim()
+      console.log(this.contentListParams)
       const { data: res } = await this.$http.get('systemNotification/selectAll', { params: this.contentListParams })
       console.log(res)
       if (res.code !== 100) return this.$message.error('获取内容列表失败')
@@ -242,8 +265,9 @@ export default {
     }
   }
   .search{
-    width: 280px;
+    width: 240px;
     margin-bottom: 10px;
+    margin-right: 20px;
   }
   .red{
     color: red;

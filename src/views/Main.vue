@@ -12,7 +12,8 @@
       unique-opened
       :collapse="collapse"
       :collapse-transition='false'
-      :router='true'>
+      :router='true'
+      :default-active='defaultActive'>
         <!-- 用户头像 -->
         <div
         class="imgUser"
@@ -133,7 +134,7 @@
           :icon="collapse?'el-icon-s-unfold':'el-icon-s-fold'"
           class="iconCe"
           @click="collapse=!collapse"></el-button>
-          <span>清空缓存</span>
+          <!-- <span>清空缓存</span> -->
         </div>
         <div
         class="tabTop">
@@ -201,7 +202,9 @@ export default {
       tagIndex: 0,
       zuoyi: false,
       powerListArr: [],
-      isWrite: null
+      isWrite: null,
+      // 侧边栏高亮
+      defaultActive: ''
     }
   },
   // beforeCreate () {
@@ -245,6 +248,7 @@ export default {
       }).indexOf(url)
       console.log(a)
       this.tagIndex = a
+      this.defaultActive = url
       this.$router.push(url)
     },
     // 关闭标签

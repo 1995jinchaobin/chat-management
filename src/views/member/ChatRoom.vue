@@ -5,7 +5,7 @@
         placeholder="请输入内容"
         v-model="searchValue"
         clearable
-        @clear='closeSelectValue'
+        @change="seacrchOptionBtn"
         class="searchinput">
         <el-select
           v-model="OptionValue"
@@ -153,13 +153,17 @@ export default {
       all.phone = all.content = ''
       switch (this.OptionValue) {
         case '用户ID':
-          all.userId = parseInt(this.searchValue)
+          if (parseInt(this.searchValue)) {
+            all.userId = parseInt(this.searchValue)
+          } else {
+            all.userId = null
+          }
           break
         case '用户手机号':
-          all.phone = this.searchValue
+          all.phone = this.searchValue.trim()
           break
         case '内容':
-          all.content = this.searchValue
+          all.content = this.searchValue.trim()
           break
         default:
       }

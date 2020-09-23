@@ -48,10 +48,10 @@
         label="已当群主数量">
         <el-input v-model="addUser.groupLeader" placeholder="请输入已当群主数量"></el-input>
       </el-form-item>
-      <el-form-item
-        label="会员组名称">
-        <el-input v-model="addUser.grade" placeholder="请输入会员组名称"></el-input>
-      </el-form-item>
+      <!-- <el-form-item
+        label="会员等级">
+        <el-input v-model="addUser.grade" placeholder="会员等级"></el-input>
+      </el-form-item> -->
       <el-form-item
         label="实名认证">
         <el-radio v-model="addUser.realName" label='0'>未认证</el-radio>

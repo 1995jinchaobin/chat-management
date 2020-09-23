@@ -7,13 +7,15 @@
       <el-input
         v-model="sysInformListParams.informTitle"
         placeholder="请输入标题"
-        clearable>
+        clearable
+        @change="getSysInformList">
       </el-input>
       <el-date-picker
         v-model="sysInformListParams.informTime"
         type="date"
         placeholder="请选择时间"
-        value-format="yyyy-MM-dd">
+        value-format="yyyy-MM-dd"
+        @change="getSysInformList">
       </el-date-picker>
       <el-button @click="getSysInformList" type="primary">搜索</el-button>
     </div>
@@ -126,6 +128,7 @@ export default {
   methods: {
     async getSysInformList () {
       console.log(this.sysInformListParams)
+      this.sysInformListParams.informTitle = this.sysInformListParams.informTitle.trim()
       const { data: res } = await this.$http.get('informComment/selectAll', { params: this.sysInformListParams })
       console.log(res)
       if (res.code !== 100) return this.$message.error('获取系统通知数据失败')

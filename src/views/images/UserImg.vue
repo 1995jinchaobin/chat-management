@@ -5,19 +5,22 @@
         class="imgid"
         v-model="userImgListParams.id"
         placeholder="请输入图片编号"
-        clearable>
+        clearable
+        @change="getUserImgList">
       </el-input>
       <el-input
         class="userid"
         v-model="userImgListParams.userId"
         placeholder="请输入用户ID"
-        clearable>
+        clearable
+        @change="getUserImgList">
       </el-input>
        <el-select
         class="imgtype"
         v-model="userImgListParams.imageType"
         placeholder="请选择图片类型"
-        clearable>
+        clearable
+        @change="getUserImgList">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -132,6 +135,18 @@ export default {
   },
   methods: {
     async getUserImgList () {
+      console.log(this.userImgListParams)
+      if (parseInt(this.userImgListParams.id)) {
+        this.userImgListParams.id = parseInt(this.userImgListParams.id)
+      } else {
+        this.userImgListParams.id = null
+      }
+      if (parseInt(this.userImgListParams.userId)) {
+        this.userImgListParams.userId = parseInt(this.userImgListParams.userId)
+      } else {
+        this.userImgListParams.userId = null
+      }
+      console.log(this.userImgListParams)
       const { data: res } = await this.$http.get('imageComment/selectAll', { params: this.userImgListParams })
       console.log(res)
       if (res.code !== 100) return this.$message.error('获取图片数据失败')
