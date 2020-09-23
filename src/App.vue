@@ -16,4 +16,13 @@ body,#app{
 .el-pagination{
   margin-top: 10px;
 }
+.red{
+  color: red;
+}
+.marginRight{
+  margin-right: 10px;
+}
+.marginLeft{
+  margin-left: 10px;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="loginContent">
-      <div class="loginTop">后台管理系统</div>
+      <h3 class="loginTop">后台管理系统</h3>
       <div class="loginForm">
         <el-form
         :model="loginForm"
@@ -14,8 +14,10 @@
             <el-input v-model="loginForm.adminPwd" placeholder="登录密码" type="password"></el-input>
           </el-form-item>
         </el-form>
-        <button class="loginBtn" @click="loginFormBtn">登录</button>
-        <button class="resetBtn" @click="resetLoginForm">重置</button>
+        <div class="btn">
+          <el-button type="success" @click="loginFormBtn" class="loginBtn">登录</el-button>
+          <el-button @click="resetLoginForm" type="info" class="resetBtn">重置</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -73,7 +75,7 @@ export default {
 
 <style lang='less' scpoed>
 .login{
-  background-color: #4D4D4D;
+  // background-color: #4D4D4D;
   width: 100%;
   height: 100%;
   min-width: 600px;
@@ -82,33 +84,36 @@ export default {
   justify-content: center;
   align-items: center;
   .loginContent{
-    width: 300px;
+    width: 400px;
     height: 350px;
     position: relative;
+    background-color: #F8F9F7;
+    padding: 20px;
+    border-radius: 5px;
     // background-color: #ccc;
     .loginTop{
       position: absolute;
       left: 50%;
       transform: translate(-50%);
-      color: #fff;
+      // color: #fff;
       font-size: 20px;
     }
   }
   .loginForm{
     position: absolute;
-    top: 40px;
+    top: 60px;
     // background-color: aqua;
-    width: 100%;
+    width: calc(100% - 40px);
     input{
-      border: none;
-      outline:none !important;
-      background-color:rgba(0,0,0,0)  ;
+      // border: none;
+      // outline:none !important;
+      // background-color:rgba(0,0,0,0)  ;
       width: 100%;
       // margin: 5px auto;
       height: 40px;
-      border-bottom: 1px solid #fff;
+      // border-bottom: 1px solid #fff;
       font-size: 18px;
-      color: #fff;
+      // color: #fff;
     }
     .el-form-item__content{
       display: flex;
@@ -124,26 +129,19 @@ export default {
       }
     }
   }
+  .btn{
+    width: 100%;
+    // background-color: red;
+    display: flex;
+    flex-wrap: wrap;
+  }
   .loginBtn{
     width: 100%;
-    margin-top: 40px;
-    height: 40px;
-    outline: none;
-    border-radius: 7px;
-    cursor: pointer;
-    background-color: #fff;
-    // font-size: 18px;
   }
   .resetBtn{
     width: 100%;
-    background-color:rgba(0,0,0,0);
-    border-radius: 7px;
-    outline: none;
-    border: 1px solid #fff;
-    height: 40px;
     margin-top: 20px;
-    color: #fff;
-    cursor: pointer;
+    margin-left: 0 !important;
   }
 }
 </style>

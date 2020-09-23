@@ -57,10 +57,17 @@
         prop="groupAdministrator"
         label="群管理员">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         align="center"
         prop="groupImageId"
         label="群头像">
+      </el-table-column> -->
+      <el-table-column
+        label="群头像"
+        align="center">
+        <template slot-scope="scope">
+          <img :src="$imgUrl+scope.row.groupImageId" class="imgSmall" @click="lookImg(scope.row)"/>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -72,7 +79,7 @@
         label="群状态">
         <template slot-scope="scope">
           <span v-if="scope.row.forbiddenWordsStatus===0">可聊天</span>
-          <span v-else>已禁言</span>
+          <span v-else class="red">已禁言</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -90,13 +97,14 @@
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
+          <el-link @click="getChatInfoList(scope.row)" class="marginRight">详情</el-link>
           <el-link v-if="scope.row.forbiddenWordsStatus===0" @click="changeStatus(scope.row)">禁言</el-link>
           <el-link v-else @click="changeStatus(scope.row)">解禁</el-link>
-          <el-link @click="delbtn(scope.row)">解散</el-link>
+          <el-link @click="delbtn(scope.row)" class="marginLeft">解散</el-link>
         </template>
       </el-table-column>
     </el-table>
-     <!-- 底部分页 -->
+    <!-- 底部分页 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -106,6 +114,83 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="allTotal">
     </el-pagination>
+    <!-- 群用户详情 -->
+    <el-dialog
+      :title="titleGroupNo+'群用户详情'"
+      :visible.sync="userInfoDialog"
+      :close-on-click-modal='false'
+      width="70%">
+      <el-input
+        placeholder="请输入用户id"
+        v-model="userInfoParams.userId"
+        clearable
+        @clear="getChatInfoListSearch">
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="getChatInfoListSearch">
+        </el-button>
+      </el-input>
+      <el-table
+        :data="infoData"
+        stripe
+        border>
+        <el-table-column
+          align="center"
+          prop="userId"
+          label="用户ID">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="name"
+          label="用户昵称">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="gender"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="city"
+          label="城市">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.forbiddenWordsStatus===0">正常</span>
+            <span class="red" v-else>禁言</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="管理">
+          <template slot-scope="scope">
+            <el-link v-if="scope.row.forbiddenWordsStatus===0" @click="userInfoStatusChange(scope.row,1)">禁言</el-link>
+            <el-link v-else @click="userInfoStatusChange(scope.row,0)">解禁</el-link>
+            <el-link @click="userOutGroup(scope.row)" class="marginLeft">移出群</el-link>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 底部分页 -->
+      <el-pagination
+        @size-change="userhandleSizeChange"
+        @current-change="userhandleCurrentChange"
+        :current-page="userInfoParams.currenPage"
+        :page-sizes="[5, 10, 20, 50]"
+        :page-size="userInfoParams.selectCount"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="userAllTotal">
+      </el-pagination>
+    </el-dialog>
+    <!-- 图片预览 -->
+    <el-dialog
+      title="图片预览"
+      :visible.sync="imageDialog"
+      width="40%">
+      <img :src="$imgUrl+imageUrl" class="imgSmall"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -133,7 +218,21 @@ export default {
         { value: '聊天室名字' },
         { value: '群主ID' },
         { value: '群管理员' }
-      ]
+      ],
+      // 图片预览
+      imageUrl: '',
+      imageDialog: false,
+      // 群用户详情
+      infoData: [],
+      userInfoDialog: false,
+      titleGroupNo: '',
+      userInfoParams: {
+        currenPage: 1,
+        selectCount: 10,
+        userId: null,
+        groupNo: null
+      },
+      userAllTotal: null
     }
   },
   created () {
@@ -174,11 +273,59 @@ export default {
       this.chatMemberListParams.selectCount = val
       this.getChatMemberList()
     },
+    // 群用户详情每页条数变化
+    userhandleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+      this.userInfoParams.selectCount = val
+      this.getChatInfoList()
+    },
+    // 群用户详情
+    async getChatInfoList (value) {
+      console.log(value)
+      if (value) {
+        this.userInfoParams.groupNo = value.groupNo
+        this.titleGroupNo = value.groupNo
+      }
+      console.log(this.userInfoParams)
+      const { data: res } = await this.$http.get('groupComment/groupInfo', { params: this.userInfoParams })
+      console.log(res)
+      if (res.code !== 100) return this.$message.error('获取群用户详情失败')
+      this.infoData = res.data.infoData.pageData
+      this.userAllTotal = res.data.infoData.totalCount
+      this.userInfoDialog = true
+    },
+    // 群用户禁言
+    async userInfoStatusChange (value, a) {
+      console.log(value)
+      console.log(a)
+      const params = {
+        userId: value.userId,
+        groupNo: this.titleGroupNo,
+        status: a
+      }
+      const { data: res } = await this.$http.post('groupContentTable/forbiddenWords', params)
+      if (a === 1 && res.code !== 100) {
+        return this.$message.error('禁言失败')
+      } else if (a === 1 && res.code === 100) {
+        this.$message.success('禁言成功')
+      } else if (a === 0 && res.code !== 100) {
+        return this.$message.error('解禁失败')
+      } else {
+        this.$message.success('解禁成功')
+      }
+      this.getChatInfoList()
+    },
     // 页数变化
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
       this.chatMemberListParams.currenPage = val
       this.getChatMemberList()
+    },
+    // 群用户详情页数变化
+    userhandleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+      this.userInfoParams.currenPage = val
+      this.getChatInfoList()
     },
     // 群禁言切换
     async changeStatus (value) {
@@ -240,6 +387,39 @@ export default {
     closeSelectValue () {
       this.OptionValue = this.searchValue = ''
       this.getChatMemberList()
+    },
+    // 图片预览
+    lookImg (value) {
+      this.imageUrl = value.groupImageId
+      console.log(this.imageUrl)
+      this.imageDialog = true
+    },
+    // 把用户移出群
+    async userOutGroup (value) {
+      console.log(this.titleGroupNo)
+      console.log(value.userId)
+      const confirmRes = await this.$confirm('此操作将移出用户,是否继续', '提示', {
+        confirmButtonText: '确定',
+        canceButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      console.log(confirmRes)
+      if (confirmRes !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      const userParams = {
+        group: this.titleGroupNo,
+        userId: value.userId
+      }
+      const { data: res } = await this.$http.get('groupContentTable/delectyc', { params: userParams })
+      console.log(res)
+      if (res.code !== 100) return this.$message.error('移出群聊失败')
+      this.$message.success('移出群聊成功')
+      this.getChatInfoList()
+    },
+    // 用户搜索
+    getChatInfoListSearch () {
+      this.getChatInfoList()
     }
   }
 }
@@ -260,6 +440,10 @@ export default {
     .searchtime{
       width: 150px;
     }
+  }
+  .imgSmall{
+    width: 100%;
+    cursor: pointer;
   }
 }
 </style>

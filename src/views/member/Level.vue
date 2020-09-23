@@ -73,7 +73,8 @@
       <add-level
         :addLevel='addLevel'
         ref="children"
-        :levelTitle='levelTitle'></add-level>
+        :levelTitle='levelTitle'
+        :name='name'></add-level>
       <span slot="footer">
         <el-button @click="addLevelDialog = false">取 消</el-button>
         <el-button type="primary" @click="addLevelDialogBtn">确 定</el-button>
@@ -112,7 +113,8 @@ export default {
       },
       levelTitle: '',
       addLevelDialog: false,
-      addLevel: {}
+      addLevel: {},
+      name: ''
     }
   },
   created () {
@@ -137,6 +139,7 @@ export default {
         this.levelTitle = '添加等级'
         this.addLevel = JSON.parse(JSON.stringify(this.addLevelParams))
       } else {
+        this.name = value.name
         this.addLevel = value
         this.levelTitle = '修改等级'
       }
@@ -166,16 +169,19 @@ export default {
     },
     // 修改增加确定按钮
     addLevelDialogBtn () {
+      // if (!this.addLevel.userId) {
+      delete this.addLevel.userId
+      //   console.log('删除')
+      // }
       console.log(this.addLevel)
-      this.addLevel.directPush = parseFloat(this.addLevel.directPush)
-      this.addLevel.team = parseFloat(this.addLevel.team)
-      this.addLevel.groupBuilding = parseFloat(this.addLevel.groupBuilding)
-      this.addLevel.cost = parseFloat(this.addLevel.cost)
-      this.addLevel.number = parseFloat(this.addLevel.number)
-      this.addLevel.titleTime = parseFloat(this.addLevel.titleTime)
-      this.addLevel.userId = parseFloat(this.addLevel.userId)
       this.$refs.children.$refs.addLevelRef.validate(async value => {
         if (!value) return
+        this.addLevel.directPush = parseFloat(this.addLevel.directPush)
+        this.addLevel.team = parseFloat(this.addLevel.team)
+        this.addLevel.groupBuilding = parseFloat(this.addLevel.groupBuilding)
+        this.addLevel.cost = this.addLevel.cost + ''
+        this.addLevel.number = parseFloat(this.addLevel.number)
+        this.addLevel.titleTime = parseFloat(this.addLevel.titleTime)
         if (this.levelTitle === '修改等级') {
           console.log(this.addLevel)
           const { data: res } = await this.$http.post('gradeTable/upd', this.addLevel)

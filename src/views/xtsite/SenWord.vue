@@ -72,7 +72,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button @click="asenWordDialog = false">取 消</el-button>
+        <el-button @click="senWordDialog = false">取 消</el-button>
         <el-button type="primary" @click="senWordDialogBtn">确 定</el-button>
       </span>
     </el-dialog>
@@ -88,6 +88,9 @@ export default {
   data () {
     var validatePass = async (rule, value, callback) => {
       if (value === '') return callback(new Error('请输入敏感词'))
+      if (this.senWordInfo.sensitiveWord === this.oldSenWord && this.senWordTitle === '修改敏感词') {
+        callback()
+      }
       await this.getSenWordRule()
       if (this.code !== 100) {
         callback(new Error('敏感词已存在'))
@@ -116,7 +119,8 @@ export default {
           { required: true, validator: validatePass, trigger: 'blur' }
         ]
       },
-      code: null
+      code: null,
+      oldSenWord: ''
     }
   },
   created () {
@@ -162,6 +166,7 @@ export default {
         this.senWordTitle = '添加敏感词'
         this.senWordInfo = JSON.parse(JSON.stringify(this.senWordInfoMudol))
       } else {
+        this.oldSenWord = value.sensitiveWord
         this.senWordTitle = '修改敏感词'
         this.senWordInfo = value
         this.getSenWordList()
@@ -207,9 +212,6 @@ export default {
   }
   .changesenword{
     margin-right: 10px;
-  }
-  .red{
-    color: red;
   }
 }
 </style>

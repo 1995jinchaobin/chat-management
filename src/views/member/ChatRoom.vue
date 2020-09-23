@@ -41,7 +41,8 @@
       <el-table-column
         align="center"
         prop="id"
-        label="ID">
+        label="ID"
+        min-width="40">
       </el-table-column>
       <el-table-column
         align="center"
@@ -70,13 +71,23 @@
       </el-table-column>
       <el-table-column
         align="center"
+        label="状态">
+        <template slot-scope="scope">
+          <span v-if="scope.row.isDelete===0 && scope.row.status===0">正常</span>
+          <span v-else-if="scope.row.isDelete===0 && scope.row.status===1" class="red">禁言</span>
+          <span v-else class="red">已被移出</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeBtn('删除该信息','1',scope.row)">撤回</el-link>
-          <el-link @click="changeBtn(`使用户:${scope.row.userId}移出群:${scope.row.group}`,'2',scope.row)">移出群</el-link>
-          <el-link @click="changeBtn(`使用户:${scope.row.userId}禁言`,'3',scope.row)">禁言</el-link>
-          <el-link @click="changeBtn(`使群:${scope.row.group}消息清空`,'4',scope.row)">一键清空</el-link>
+          <el-link @click="changeBtn(`使用户:${scope.row.userId}移出群:${scope.row.group}`,'2',scope.row)" class="marginLeft" v-if="scope.row.isDelete===0">移出群</el-link>
+          <el-link @click="changeBtn(`使用户:${scope.row.userId}禁言`,'3',scope.row)" class="marginLeft" v-if="scope.row.isDelete===0 && scope.row.status===0">禁言</el-link>
+          <el-link @click="changeBtn(`使用户:${scope.row.userId}解禁`,'3',scope.row)" class="marginLeft" v-if="scope.row.isDelete===0 && scope.row.status===1">解禁</el-link>
+          <el-link @click="changeBtn(`使群:${scope.row.group}消息清空`,'4',scope.row)" class="marginLeft">一键清空</el-link>
         </template>
       </el-table-column>
      </el-table>
@@ -198,11 +209,28 @@ export default {
     // 禁言
     async jinyan (value) {
       console.log(value)
-      const { data: res } = await this.$http.post('groupContentTable/forbiddenWords', { userId: value.userId })
-      if (res.code !== 100) return this.$message.error('禁言失败')
+      // userId，groupNo，status
+      const a = {
+        userId: value.userId,
+        groupNo: value.group,
+        status: null
+      }
+      if (value.status === 1) {
+        a.status = 0
+        const { data: res } = await this.$http.post('groupContentTable/forbiddenWords', a)
+        console.log(res)
+        if (res.code !== 100) return this.$message.error('解禁失败')
+        this.$message.success('解禁成功')
+      } else {
+        a.status = 1
+        console.log(a)
+        const { data: res } = await this.$http.post('groupContentTable/forbiddenWords', a)
+        console.log(res)
+        if (res.code !== 100) return this.$message.error('禁言失败')
+        this.$message.success('禁言成功')
+      }
+      console.log(a)
       this.getChatRoomList()
-      this.$message.success('禁言成功')
-      console.log(res)
     },
     // 一键清空
     async qingkong (value) {

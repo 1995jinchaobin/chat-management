@@ -225,9 +225,6 @@ export default {
     margin-bottom: 10px;
     padding-bottom: 10px;
   }
-  .red{
-    color: red;
-  }
   .changebtn{
     margin-right: 10px;
   }

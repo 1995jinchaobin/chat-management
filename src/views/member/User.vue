@@ -76,96 +76,104 @@
         align="center"
         label="城市">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="phone"
         align="center"
         label="手机号">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="balance"
         align="center"
         label="余额">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="invitees"
         align="center"
         label="邀请人">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="invitationCode"
         label="邀请码"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="chatGroup"
         label="聊天群数量"
-        align="center">
+        align="center"
+        min-width="50">
       </el-table-column>
       <el-table-column
         align="center"
         prop="groupLeader"
-        label="已当群主数量">
+        label="已当群主数量"
+        min-width="50">
       </el-table-column>
       <el-table-column
         prop="grade"
         align="center"
-        label="会员组名称">
+        label="会员等级"
+        min-width="50">
       </el-table-column>
       <el-table-column
         align="center"
-        label="实名认证">
+        label="实名认证"
+        min-width="50">
         <template slot-scope="scope">
           <span v-if="scope.row.realName===0" class="red">未认证</span>
           <span v-else>已认证</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         align="center"
         prop="recentlyLanded"
         label="最后登录时间">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         align="center"
         label="状态"
-        min-width="60">
+        min-width="50">
         <template slot-scope="scope">
           <span v-if="scope.row.state===0">正常</span>
           <span v-else class="red">冻结</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="loginPwd"
         align="center"
-        label="登入密码">
-      </el-table-column>
-      <el-table-column
+        label="登密码">
+      </el-table-column> -->
+      <!-- <el-table-column
         align="center"
         prop="paymentPwd"
         label="支付密码">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="freezingTime"
         label="冻结时间"
         align="center">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="adminId"
         align="center"
         label="管理员ID">
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="registerTime"
         label="注册时间"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="操作"
-        align="center"      v-if="isWrite==='isWriteQweasd'">
+        align="center"
+        v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <el-link @click="showAddDialogBtn(scope.row)">修改</el-link>
-          <el-link @click="freezeBtn(scope.row)" v-if="scope.row.state===0" class="marbtn">封号</el-link>
-          <el-link @click="freezeBtn(scope.row)" v-else class="marbtn">解封</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <div class="caozuo">
+            <el-link @click="showUserDialogBtn(scope.row)">详情</el-link>
+            <el-link @click="showAddDialogBtn(scope.row)">修改</el-link>
+            <el-link @click="freezeBtn(scope.row)" v-if="scope.row.state===0">封号</el-link>
+            <el-link @click="freezeBtn(scope.row)" v-else>解封</el-link>
+            <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -202,6 +210,64 @@
         <el-button @click="addUserDialog = false">取 消</el-button>
         <el-button type="primary" @click="addUserDialogBtn">确 定</el-button>
       </span>
+    </el-dialog>
+    <!-- 用户详情 -->
+    <el-dialog
+      title="用户详情"
+      :visible.sync="userInfoDialog"
+      width="500px">
+      <el-form
+        label-width="150px"
+        class="showUserInfo">
+        <el-form-item
+          label="用户ID">
+          <span>{{userInfo.id}}</span>
+        </el-form-item>
+        <el-form-item
+          label="昵称">
+          <span>{{userInfo.name}}</span>
+        </el-form-item>
+        <el-form-item
+          label="手机号">
+          <span>{{userInfo.phone}}</span>
+        </el-form-item>
+        <el-form-item
+          label="余额">
+          <span>{{userInfo.balance}}</span>
+        </el-form-item>
+        <el-form-item
+          label="邀请人">
+          <span>{{userInfo.invitees}}</span>
+        </el-form-item>
+        <el-form-item
+          label="邀请码">
+          <span>{{userInfo.invitationCode}}</span>
+        </el-form-item>
+        <el-form-item
+          label="最后登录时间">
+          <span>{{userInfo.recentlyLanded}}</span>
+        </el-form-item>
+        <el-form-item
+          label="登录密码">
+          <span>{{userInfo.loginPwd}}</span>
+        </el-form-item>
+        <el-form-item
+          label="支付密码">
+          <span>{{userInfo.paymentPwd}}</span>
+        </el-form-item>
+        <el-form-item
+          label="注册时间">
+          <span>{{userInfo.registerTime}}</span>
+        </el-form-item>
+        <el-form-item
+          label="冻结时间">
+          <span>{{userInfo.freezingTime}}</span>
+        </el-form-item>
+        <el-form-item
+          label="管理员ID">
+          <span>{{userInfo.adminId}}</span>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -276,7 +342,10 @@ export default {
       addUser: {},
       // 图片预览
       imageUrl: '',
-      imageDialog: false
+      imageDialog: false,
+      // 用户详情
+      userInfo: {},
+      userInfoDialog: false
     }
   },
   created () {
@@ -296,6 +365,12 @@ export default {
       }
       console.log(this.userList)
       this.allTotal = res.data.queryUserListData.totalCount
+    },
+    // 查看用户详情
+    showUserDialogBtn (value) {
+      console.log(value)
+      this.userInfo = value
+      this.userInfoDialog = true
     },
     // 按钮固定搜索
     allUserList (value) {
@@ -439,7 +514,6 @@ export default {
 
 <style lang='less' scoped>
 .userlist{
-  // padding: 20px;
   // 添加用户
   .addUserBtn{
     width: 100%;
@@ -470,11 +544,20 @@ export default {
     width: 100%;
     cursor: pointer;
   }
-  .red{
-    color: red;
+  .showUserInfo{
+    .el-form-item{
+      margin: 0;
+    }
+    span{
+      margin-left: 10px;
+    }
   }
-  .marbtn{
-    margin: auto 5px;
+  .caozuo{
+    display: flex;
+    flex-wrap: wrap;
+    .el-link{
+      margin: auto 3px;
+    }
   }
 }
 </style>

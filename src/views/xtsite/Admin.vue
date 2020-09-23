@@ -268,9 +268,6 @@ export default {
     margin-bottom: 10px;
     border-bottom: 1px solid #000;
   }
-  .red{
-    color: red;
-  }
   .el-select{
     width: 100%;
   }
