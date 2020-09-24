@@ -5,6 +5,7 @@
 </template>
 
 <style lang="less">
+@import "./assets/icon.css";
 *{
   margin: 0;
   padding: 0;

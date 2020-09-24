@@ -55,12 +55,14 @@
       <el-table-column
         align="center"
         prop="id"
-        label="ID">
+        label="ID"
+        min-width="60%">
       </el-table-column>
       <el-table-column
         prop="name"
         label="昵称"
-        align="center">
+        align="center"
+        min-width="50%">
       </el-table-column>
       <el-table-column
         label="头像"
@@ -78,7 +80,8 @@
       <el-table-column
         prop="city"
         align="center"
-        label="城市">
+        label="城市"
+        min-width="50%">
       </el-table-column>
       <!-- <el-table-column
         prop="phone"

@@ -172,7 +172,7 @@
           <template slot-scope="scope">
             <el-link v-if="scope.row.forbiddenWordsStatus===0" @click="userInfoStatusChange(scope.row,1)">禁言</el-link>
             <el-link v-else @click="userInfoStatusChange(scope.row,0)">解禁</el-link>
-            <el-link @click="userOutGroup(scope.row)" class="marginLeft">移出群</el-link>
+            <el-link @click="userOutGroup(scope.row)" class="marginLeft" v-if="scope.row.userId!==qunZhuId">移出群</el-link>
           </template>
         </el-table-column>
       </el-table>
@@ -235,7 +235,8 @@ export default {
         userId: null,
         groupNo: null
       },
-      userAllTotal: null
+      userAllTotal: null,
+      qunZhuId: null
     }
   },
   created () {
@@ -253,7 +254,7 @@ export default {
       }
       this.allTotal = res.data.pageDate.totalCount
     },
-    // 删除按钮
+    // 解散
     async delbtn (value) {
       const confirmRes = await this.$confirm(`此操作将解散群:${value.groupNo},是否继续`, '提示', {
         confirmButtonText: '确定',
@@ -264,7 +265,7 @@ export default {
       if (confirmRes !== 'confirm') {
         return this.$message.info('已取消操作')
       }
-      const { data: res } = await this.$http.delete(`groupComment/delete?id=${value.id}&groupNo=${value.groupNo}`)
+      const { data: res } = await this.$http.delete(`groupComment/delete?id=${value.id}&groupNo=${value.groupNo}&groupMasterId=${value.groupMasterId}`)
       console.log(res)
       if (res.code !== 100) return this.$message.error('解散失败')
       this.$message.success('解散成功')
@@ -286,9 +287,11 @@ export default {
     async getChatInfoList (value) {
       console.log(value)
       if (value) {
+        this.qunZhuId = value.groupMasterId
         this.userInfoParams.groupNo = value.groupNo
         this.titleGroupNo = value.groupNo
       }
+      console.log(this.qunZhuId)
       console.log(this.userInfoParams)
       const { data: res } = await this.$http.get('groupComment/groupInfo', { params: this.userInfoParams })
       console.log(res)

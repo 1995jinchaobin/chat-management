@@ -1,7 +1,6 @@
 <template>
 <div class="main">
-  <el-container
-  style="height:100vh">
+  <el-container style="height:100vh">
     <el-aside
     :width="collapse?'64px':'220px'">
       <el-menu
@@ -25,7 +24,7 @@
         <!-- app设置 -->
         <el-submenu index="1" v-if="powerListArr.indexOf('1')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-download"></i>
             <span slot="title">app设置</span>
           </template>
           <el-menu-item index="android" @click="tagBtn('android')">安卓下载地址</el-menu-item>
@@ -34,7 +33,7 @@
         <!-- 广播管理 -->
         <el-submenu index="2" v-if="powerListArr.indexOf('10')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-guangbo"></i>
             <span slot="title">广播管理</span>
           </template>
           <el-menu-item-group>
@@ -45,7 +44,7 @@
         <!-- 会员管理 -->
         <el-submenu index="3" v-if="powerListArr.indexOf('11')!==-1 || powerListArr.indexOf('13')!==-1 || powerListArr.indexOf('12')!==-1 || powerListArr.indexOf('14')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-huiyuan"></i>
             <span slot="title">会员管理</span>
           </template>
           <el-menu-item-group>
@@ -60,7 +59,7 @@
         <!-- 聊天室管理 -->
         <el-submenu index="9" v-if="powerListArr.indexOf('15')!==-1 || powerListArr.indexOf('16')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-liaotian"></i>
             <span slot="title">聊天室管理</span>
           </template>
           <el-menu-item-group>
@@ -71,7 +70,7 @@
         <!-- 其他设置 -->
         <el-submenu index="8" v-if="powerListArr.indexOf('17')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-shezhi"></i>
             <span slot="title">其他设置</span>
           </template>
           <el-menu-item-group>
@@ -81,7 +80,7 @@
         <!-- 图片管理 -->
         <el-submenu index="4" v-if="powerListArr.indexOf('18')!==-1 || powerListArr.indexOf('19')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-tupian"></i>
             <span slot="title">图片管理</span>
           </template>
           <el-menu-item-group>
@@ -92,7 +91,7 @@
         <!-- 系统设置 -->
         <el-submenu index="5" v-if="powerListArr.indexOf('20')!==-1 || powerListArr.indexOf('21')!==-1 ||powerListArr.indexOf('22')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-shezhi"></i>
             <span slot="title">系统设置</span>
           </template>
           <el-menu-item-group>
@@ -115,7 +114,7 @@
         <!-- 投诉列表 -->
         <el-submenu index="7" v-if="powerListArr.indexOf('23')!==-1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="iconfont icon-tousu"></i>
             <span slot="title">投诉列表</span>
           </template>
           <el-menu-item-group>
@@ -144,8 +143,12 @@
           <!-- <i class="el-icon-caret-right"></i> -->
           <el-button icon="el-icon-switch-button" class="outBtn" @click="pushLogin">退出</el-button>
           <el-button class="closeTagBtn" @click="closeOtherTag">关闭其他选项卡</el-button>
-          <div :class="zuoyi?'tagLeft':''" class="tagAll">
+          <div
+            :class="zuoyi?'tagLeft':''"
+            class="tagAll"
+            ref="fatherBox">
             <el-tag
+              ref="ziBox"
               v-for="(tag,index) in tags"
               :key="tag.name"
               :closable="tags.length===1?false:true"
@@ -286,11 +289,20 @@ export default {
     },
     // 右移按钮标签
     tagRightBtn () {
-      console.log('you ')
-      this.zuoyi = true
+      // console.log('you ')
+      let b = 0
+      for (let a = 0; a < this.tags.length; a++) {
+        // console.log(a)
+        b += this.$refs.ziBox[a].$el.clientWidth
+      }
+      const fatherBoxWidth = this.$refs.fatherBox.offsetWidth
+      if (fatherBoxWidth < b) {
+        this.zuoyi = true
+      }
     },
     // 关闭其他标签卡
     closeOtherTag () {
+      if (this.tags.length === 1) return
       const obj = this.tags[this.tagIndex]
       this.tags = []
       this.tags.push(obj)
@@ -312,9 +324,21 @@ export default {
   font-size: 14px;
   .el-aside{
     background-color: #2F4050;
-    // 鼠标悬浮
+    // 鼠标悬浮变色
     .el-submenu__title:hover,.el-menu-item:hover{
       color: #fff !important;
+    }
+    i{
+      color:#A7B1C2;
+    }
+    .el-submenu__title:hover i{
+      color: #fff;
+    }
+    // i:hover{
+    //   color: #fff !important;
+    // }
+    i + span{
+      margin-left: 20px;
     }
   }
   // 隐藏侧边菜单滚动条
@@ -393,6 +417,9 @@ export default {
         height: 32px;
         width: 60px;
         padding: 0;
+        i{
+          color: red;
+        }
       }
       .tag{
         background-color: blue;
