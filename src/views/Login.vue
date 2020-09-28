@@ -45,7 +45,7 @@ export default {
   name: 'login',
   components: { ValidCode },
   data () {
-    const validatorCode = async (rule, value, callback) => {
+    const validatorCode = (rule, value, callback) => {
       if (this.code === '') return callback(new Error('请输入验证码'))
       // validCodeRef
       if (this.code.toLowerCase() !== this.validCode.toLowerCase()) {
@@ -82,6 +82,7 @@ export default {
     // 表单重置按钮
     resetLoginForm () {
       this.$refs.loginFormRef.resetFields()
+      this.code = ''
     },
     // 表单登录按钮
     loginFormBtn () {
