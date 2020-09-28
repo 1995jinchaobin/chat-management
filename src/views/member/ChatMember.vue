@@ -23,7 +23,8 @@
         <el-button
           slot="append"
           icon="el-icon-search"
-          @click="seacrchOptionBtn"></el-button>
+          @click="seacrchOptionBtn">
+        </el-button>
       </el-input>
       <el-date-picker
         v-model="chatMemberListParams.createTime"
@@ -37,8 +38,7 @@
     <el-table
       :data="chatMemberList"
       stripe
-      border
-      >
+      border>
       <el-table-column
         align="center"
         prop="groupNo"

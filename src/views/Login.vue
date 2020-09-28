@@ -3,20 +3,28 @@
     <div class="loginContent">
       <h3 class="loginTop">后台管理系统</h3>
       <div class="loginForm">
-        <el-form
-        :model="loginForm"
-        :rules="loginFormRules"
-        ref="loginFormRef">
+        <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
           <el-form-item prop="adminName">
-            <el-input v-model="loginForm.adminName" placeholder="用户名"></el-input>
+            <el-input
+              v-model="loginForm.adminName"
+              placeholder="用户名"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="adminPwd">
-            <el-input v-model="loginForm.adminPwd" placeholder="登录密码" type="password"></el-input>
+            <el-input
+              v-model="loginForm.adminPwd"
+              placeholder="登录密码"
+              type="password"
+            ></el-input>
           </el-form-item>
         </el-form>
         <div class="btn">
-          <el-button type="success" @click="loginFormBtn" class="loginBtn">登录</el-button>
-          <el-button @click="resetLoginForm" type="info" class="resetBtn">重置</el-button>
+          <el-button type="success" @click="loginFormBtn" class="loginBtn"
+            >登录</el-button
+          >
+          <el-button @click="resetLoginForm" type="info" class="resetBtn"
+            >重置</el-button
+          >
         </div>
       </div>
     </div>
@@ -66,6 +74,7 @@ export default {
           }
         }
         window.sessionStorage.setItem('power', Base64.encode(this.powerListArr))
+        window.sessionStorage.setItem('time', new Date().getTime())
         this.$router.push('/home')
       })
     }
@@ -74,7 +83,7 @@ export default {
 </script>
 
 <style lang='less' scpoed>
-.login{
+.login {
   // background-color: #4D4D4D;
   width: 100%;
   height: 100%;
@@ -83,15 +92,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .loginContent{
+  .loginContent {
     width: 400px;
     height: 350px;
     position: relative;
-    background-color: #F8F9F7;
+    background-color: #f8f9f7;
     padding: 20px;
     border-radius: 5px;
     // background-color: #ccc;
-    .loginTop{
+    .loginTop {
       position: absolute;
       left: 50%;
       transform: translate(-50%);
@@ -99,12 +108,12 @@ export default {
       font-size: 20px;
     }
   }
-  .loginForm{
+  .loginForm {
     position: absolute;
     top: 60px;
     // background-color: aqua;
     width: calc(100% - 40px);
-    input{
+    input {
       // border: none;
       // outline:none !important;
       // background-color:rgba(0,0,0,0)  ;
@@ -115,30 +124,30 @@ export default {
       font-size: 18px;
       // color: #fff;
     }
-    .el-form-item__content{
+    .el-form-item__content {
       display: flex;
-      .code{
-      flex:3;
+      .code {
+        flex: 3;
       }
-      .imgCode{
-      flex: 2;
-      background-color:#fff;
-      height: 40px;
-      margin-left: 5px;
-      cursor: pointer;
+      .imgCode {
+        flex: 2;
+        background-color: #fff;
+        height: 40px;
+        margin-left: 5px;
+        cursor: pointer;
       }
     }
   }
-  .btn{
+  .btn {
     width: 100%;
     // background-color: red;
     display: flex;
     flex-wrap: wrap;
   }
-  .loginBtn{
+  .loginBtn {
     width: 100%;
   }
-  .resetBtn{
+  .resetBtn {
     width: 100%;
     margin-top: 20px;
     margin-left: 0 !important;

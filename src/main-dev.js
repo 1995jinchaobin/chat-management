@@ -10,6 +10,20 @@ axios.defaults.baseURL = 'http://192.168.0.10:8081/'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 axios.interceptors.request.use(config => {
+  if (window.sessionStorage.getItem('time')) {
+    if (new Date().getTime() - window.sessionStorage.getItem('time') > 1800000) {
+      window.sessionStorage.clear()
+      router.push({
+        path: 'login'
+      })
+      return
+    }
+  }
+  // const time = window.sessionStorage.getItem('time')
+  // const a = new Date().getTime() - time
+  // if (a > 1800000) {
+  //   return window.sessionStorage.clear()
+  // }
   if (window.sessionStorage.getItem('userToken')) {
     config.headers.common.userToken = window.sessionStorage.getItem('userToken')
   }
@@ -27,6 +41,7 @@ axios.interceptors.response.use(function (res) {
       path: 'login'
     })
   }
+  window.sessionStorage.setItem('time', new Date().getTime())
   return res
 })
 new Vue({

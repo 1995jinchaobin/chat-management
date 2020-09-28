@@ -49,6 +49,7 @@ export default {
   .home{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     .addMember{
       background-color: #eee;
       padding: 15px;
