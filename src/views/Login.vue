@@ -17,6 +17,13 @@
               type="password"
             ></el-input>
           </el-form-item>
+          <el-form-item prop="validCode">
+            <el-input
+              v-model="code"
+              placeholder="验证码"
+            ></el-input>
+            <valid-code :value.sync="validCode" ref="validCodeRef"></valid-code>
+          </el-form-item>
         </el-form>
         <div class="btn">
           <el-button type="success" @click="loginFormBtn" class="loginBtn"
@@ -32,10 +39,22 @@
 </template>
 
 <script>
+import ValidCode from '@/components/ValidCode.vue'
 const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
+  components: { ValidCode },
   data () {
+    const validatorCode = async (rule, value, callback) => {
+      if (this.code === '') return callback(new Error('请输入验证码'))
+      // validCodeRef
+      if (this.code.toLowerCase() !== this.validCode.toLowerCase()) {
+        this.$refs.validCodeRef.refreshCode()
+        return callback(new Error('验证码错误'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         adminName: '',
@@ -47,9 +66,16 @@ export default {
         ],
         adminPwd: [
           { required: true, message: '请输入登陆密码', trigger: 'blur' }
+        ],
+        validCode: [
+          { validator: validatorCode, trigger: 'blur' }
         ]
       },
-      powerListArr: []
+      powerListArr: [],
+      // 系统生成的验证码
+      validCode: '',
+      // 输入框的验证码
+      code: ''
     }
   },
   methods: {
@@ -59,6 +85,7 @@ export default {
     },
     // 表单登录按钮
     loginFormBtn () {
+      console.log(this.validCode)
       this.$refs.loginFormRef.validate(async value => {
         if (!value) return
         console.log(this.loginForm)
