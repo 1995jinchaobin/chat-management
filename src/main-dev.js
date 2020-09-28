@@ -10,6 +10,7 @@ axios.defaults.baseURL = 'http://192.168.0.10:8081/'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 axios.interceptors.request.use(config => {
+  // token过期时间设置半小时
   if (window.sessionStorage.getItem('time')) {
     if (new Date().getTime() - window.sessionStorage.getItem('time') > 1800000) {
       window.sessionStorage.clear()
@@ -19,11 +20,6 @@ axios.interceptors.request.use(config => {
       return
     }
   }
-  // const time = window.sessionStorage.getItem('time')
-  // const a = new Date().getTime() - time
-  // if (a > 1800000) {
-  //   return window.sessionStorage.clear()
-  // }
   if (window.sessionStorage.getItem('userToken')) {
     config.headers.common.userToken = window.sessionStorage.getItem('userToken')
   }
