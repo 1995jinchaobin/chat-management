@@ -24,7 +24,7 @@
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeFenleiInfo(scope.row)" v-if="scope.row.id!==1" class="changeadmin">修改</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)' v-if="scope.row.id!==1"></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' v-if="scope.row.id!==1" :name="'权限类型:'+scope.row.adminType"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

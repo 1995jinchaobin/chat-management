@@ -76,7 +76,7 @@
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="'图片编号:'+scope.row.id"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

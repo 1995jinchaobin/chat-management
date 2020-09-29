@@ -42,7 +42,7 @@
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="addAdminBtn(scope.row)" class="changeadmin">修改</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="'管理员:'+scope.row.adminName"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

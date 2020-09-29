@@ -32,7 +32,7 @@
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="addCenWordBtn(scope.row)" class="changesenword">修改</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="'敏感词:'+scope.row.sensitiveWord"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

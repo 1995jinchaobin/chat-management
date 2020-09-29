@@ -50,7 +50,7 @@
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeSysInform(scope.row)" class="marginRight">修改</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="name"></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -118,7 +118,8 @@ export default {
       // 添加修改广播
       sysTitle: '',
       sysDialog: false,
-      addSys: {}
+      addSys: {},
+      name: '系统广播'
     }
   },
   created () {

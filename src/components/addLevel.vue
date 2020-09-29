@@ -107,10 +107,10 @@ export default {
       code: null
     }
   },
-  created () {
-    console.log(123)
-    console.log(this.addLevel)
-  },
+  // created () {
+  //   console.log(123)
+  //   console.log(this.addLevel)
+  // },
   methods: {
     async getLevelCheck () {
       console.log(this.addLevel.name)

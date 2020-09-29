@@ -76,7 +76,7 @@
         align="center"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="name"></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -134,7 +134,8 @@ export default {
         { value: '内容' },
         { value: '接收用户ID' },
         { value: '接收用户手机号' }
-      ]
+      ],
+      name: '用户聊天信息'
       // 添加内容
       // addContentDialog: false
     }

@@ -79,7 +79,7 @@
       <template slot-scope="scope">
         <el-link v-if="scope.row.state===0" @click="changeState(scope.row)">通过</el-link>
         <el-link v-else @click="changeState(scope.row)">拒绝</el-link>
-        <delete-btn @delinfobtn='delinfobtn(scope.row)' class="delbtn"></delete-btn>
+        <delete-btn @delinfobtn='delinfobtn(scope.row)' class="delbtn" :name='name'></delete-btn>
       </template>
     </el-table-column>
   </el-table>
@@ -171,7 +171,8 @@ export default {
         type: [
           { required: true, message: '请输入发布类型', trigger: 'blur' }
         ]
-      }
+      },
+      name: '用户广播'
     }
   },
   created () {

@@ -29,7 +29,7 @@
           <el-link @click="changeSiteInfo(scope.row)" class="changebtn"
             >修改</el-link
           >
-          <delete-btn @delinfobtn="delinfobtn(scope.row)"></delete-btn>
+          <delete-btn @delinfobtn="delinfobtn(scope.row)" :name="'标签名:'+scope.row.labelName"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

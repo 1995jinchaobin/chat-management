@@ -33,7 +33,7 @@
         label="管理"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="'Id:'+scope.row.id+'的轮播图'"></delete-btn>
         </template>
       </el-table-column>
     </el-table>

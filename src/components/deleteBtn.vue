@@ -4,10 +4,12 @@
 
 <script>
 export default {
+  props: ['name'],
   methods: {
     // 删除按钮提示
     async delbtn () {
-      const confirmRes = await this.$confirm('此操作将永久删除该信息,是否继续', '提示', {
+      console.log(this.name)
+      const confirmRes = await this.$confirm(`此操作将永久删除该${this.name},是否继续`, '提示', {
         confirmButtonText: '确定',
         canceButtonText: '取消',
         type: 'warning'

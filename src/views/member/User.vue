@@ -168,7 +168,7 @@
               >封号</el-link
             >
             <el-link @click="freezeBtn(scope.row)" v-else>解封</el-link>
-            <delete-btn @delinfobtn="delinfobtn(scope.row)"></delete-btn>
+            <delete-btn @delinfobtn="delinfobtn(scope.row)" :name="name+scope.row.name"></delete-btn>
           </div>
         </template>
       </el-table-column>
@@ -316,8 +316,8 @@ export default {
         chatGroup: '',
         groupLeader: '',
         grade: '',
-        realName: '0',
-        state: '0',
+        realName: 0,
+        state: 0,
         loginPwd: '',
         paymentPwd: '',
         adminId: ''
@@ -328,7 +328,8 @@ export default {
       imageDialog: false,
       // 用户详情
       userInfo: {},
-      userInfoDialog: false
+      userInfoDialog: false,
+      name: '会员:'
     }
   },
   created () {
@@ -442,8 +443,8 @@ export default {
       } else {
         this.userTitle = '修改用户'
         this.addUser = value
-        this.addUser.realName = this.addUser.realName + ''
-        this.addUser.state = this.addUser.state + ''
+        // this.addUser.realName = this.addUser.realName + ''
+        // this.addUser.state = this.addUser.state + ''
         // this.changeUserId = value.id
       }
       console.log(this.addUser)

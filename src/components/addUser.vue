@@ -50,13 +50,13 @@
       </el-form-item>
       <el-form-item
         label="实名认证">
-        <el-radio v-model="addUser.realName" label='0'>未认证</el-radio>
-        <el-radio v-model="addUser.realName" label='1'>已认证</el-radio>
+        <el-radio v-model="addUser.realName" :label='0'>未认证</el-radio>
+        <el-radio v-model="addUser.realName" :label='1'>已认证</el-radio>
       </el-form-item>
       <el-form-item
         label="状态">
-        <el-radio v-model="addUser.state" label='0'>正常</el-radio>
-        <el-radio v-model="addUser.state" label='1'>冻结</el-radio>
+        <el-radio v-model="addUser.state" :label='0'>正常</el-radio>
+        <el-radio v-model="addUser.state" :label='1'>冻结</el-radio>
       </el-form-item>
       <el-form-item
         label="登录密码">

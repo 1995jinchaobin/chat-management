@@ -256,7 +256,7 @@ export default {
     },
     // 解散
     async delbtn (value) {
-      const confirmRes = await this.$confirm(`此操作将解散群:${value.groupNo},是否继续`, '提示', {
+      const confirmRes = await this.$confirm(`此操作将解散聊天室:${value.groupNo},是否继续`, '提示', {
         confirmButtonText: '确定',
         canceButtonText: '取消',
         type: 'warning'

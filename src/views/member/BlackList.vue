@@ -84,7 +84,7 @@
         label="操作"
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="name"></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -137,7 +137,8 @@ export default {
         { value: '被拉黑用户手机号' }
       ],
       imageUrl: '',
-      imageDialog: false
+      imageDialog: false,
+      name: '拉黑记录'
     }
   },
   created () {

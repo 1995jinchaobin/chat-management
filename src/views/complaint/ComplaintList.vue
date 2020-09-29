@@ -89,7 +89,7 @@
         <template slot-scope="scope">
           <el-link v-if="scope.row.status===0" @click="changeStatus(scope.row)">处理完成</el-link>
           <el-link v-else @click="changeStatus(scope.row)">取消处理</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)' class="leftMargin"></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' class="leftMargin" :name='name'></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -127,7 +127,8 @@ export default {
       searchOptionsList: [
         { value: 0, label: '处理中' },
         { value: 1, label: '已处理' }
-      ]
+      ],
+      name: '投诉记录'
     }
   },
   created () {

@@ -49,7 +49,7 @@
         v-if="isWrite==='isWriteQweasd'">
         <template slot-scope="scope">
           <el-link @click="changeLvevlInfo(scope.row)" class="changebtn">修改</el-link>
-          <delete-btn @delinfobtn='delinfobtn(scope.row)'></delete-btn>
+          <delete-btn @delinfobtn='delinfobtn(scope.row)' :name="nameDel+scope.row.name"></delete-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -114,7 +114,8 @@ export default {
       levelTitle: '',
       addLevelDialog: false,
       addLevel: {},
-      name: ''
+      name: '',
+      nameDel: '会员等级:'
     }
   },
   created () {
